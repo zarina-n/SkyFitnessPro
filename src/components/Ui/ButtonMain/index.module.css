@@ -1,0 +1,36 @@
+.btn {
+  width: 278px;
+  height: 52px;
+  font-size: 18px;
+}
+
+.violet {
+  background-color: #580ea2;
+  color: #fff;
+}
+
+.violet:hover {
+  background-color: #3f007d;
+}
+
+.violet:active {
+  background-color: #271a58;
+}
+
+.white {
+  background-color: transparent;
+  border: 1px solid #d0cece;
+  color: #000000;
+}
+
+.white:hover {
+  background-color: #d0cece;
+}
+
+.white:active {
+  background-color: #d9d9d9;
+}
+
+.btn:disabled:hover {
+  cursor: not-allowed;
+}

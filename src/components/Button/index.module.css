@@ -1,0 +1,12 @@
+.btn {
+  font-family: 'StratosSkyeng', sans-serif;
+  font-style: normal;
+  border: none;
+  border-radius: 46px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  line-height: 24px;
+  letter-spacing: -0.05px;
+}
