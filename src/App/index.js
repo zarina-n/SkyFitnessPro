@@ -1,7 +1,7 @@
-import classes from './index.module.css'
+import AppRoutes from '../routes'
 
 function App() {
-  return <div className={classes.wrapper}>SkyFitnessPro</div>
+  return <AppRoutes />
 }
 
 export default App
