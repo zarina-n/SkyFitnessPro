@@ -1,0 +1,17 @@
+.container {
+  background-color: transparent;
+  place-self: center start;
+}
+
+.icon {
+  max-height: 35px;
+  max-width: 220px;
+}
+
+.white {
+  fill: #fff;
+}
+
+.black {
+  fill: #000;
+}
