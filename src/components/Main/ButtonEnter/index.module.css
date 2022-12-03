@@ -1,0 +1,17 @@
+.enter {
+  width: 77px;
+  height: 36px;
+  background-color: #140d40;
+  color: #fff;
+  font-size: 16px;
+  line-height: 24px;
+  text-align: center;
+}
+
+.enter:hover {
+  background-color: #2d1f79;
+}
+
+.enter:active {
+  background-color: #3b29a1;
+}
