@@ -5,7 +5,7 @@ const CART_IMG = [
     title: 'Йога',
   },
   {
-    id: 'srtetch',
+    id: 'stretch',
     src: 'image/carts/stretch.png',
     title: 'Стретчинг',
   },
