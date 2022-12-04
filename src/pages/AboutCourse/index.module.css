@@ -1,0 +1,119 @@
+.wrapper {
+  font-size: 30px;
+  height: 100vh;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+
+  padding-left: calc(50% - 580px);
+  padding-right: calc(50% - 580px);
+}
+
+.container {
+  font-family: 'StratosSkyeng';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 24px;
+  line-height: 32px;
+  font-feature-settings: 'pnum' on, 'lnum' on;
+
+  color: #000000;
+  margin-top: 75px;
+}
+
+.title__box {
+  background-image: url('./aboutImg/course_card-yoga.png');
+  background-color: rgba(205, 205, 205, 0.3);
+  display: flex;
+  justify-content: space-between;
+
+  backdrop-filter: blur(14.5187px);
+  border-radius: 30px;
+  height: 310px;
+}
+
+.title {
+  margin: 30px;
+}
+
+.foryou {
+  display: flex;
+  flex-direction: column;
+}
+
+.heading {
+  font-family: 'StratosSkyeng';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 40px;
+  line-height: 48px;
+  font-feature-settings: 'pnum' on, 'lnum' on;
+  color: #000000;
+
+  margin-top: 75px;
+  margin-bottom: 20px;
+}
+
+.foryou__list {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 87px;
+}
+
+.foryou__list_item {
+  counter-increment: item;
+  display: flex;
+  align-items: flex-start;
+}
+
+.foryou__list_item::before {
+  margin-right: 24px;
+  content: counter(item);
+  background: #c7e957;
+  border-radius: 50%;
+  color: #000;
+  width: 67px;
+  text-align: center;
+  display: inline-block;
+  padding: 10px;
+}
+
+.directions {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 75px;
+}
+
+.directions__list {
+  columns: 2;
+  -webkit-columns: 2;
+  -moz-columns: 2;
+}
+
+.directions__list_item {
+  list-style-type: disc;
+  list-style-position: inside;
+}
+
+.results {
+  margin-bottom: 75px;
+}
+
+.application {
+  background: #f9ebff;
+  border-radius: 30px;
+  padding: 46px 52px;
+  margin-bottom: 95px;
+
+  max-height: 300px;
+
+  display: flex;
+  align-items: center;
+}
+
+.application__text {
+  font-size: 32px;
+  line-height: 40px;
+  margin-bottom: 35px;
+}
