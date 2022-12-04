@@ -1,4 +1,4 @@
-import ButtonMain from '../Ui/ButtonMain/index'
+import ButtonMain from '../Ui/ButtonMain'
 import classes from './index.module.css'
 
 const Exercises = () => {

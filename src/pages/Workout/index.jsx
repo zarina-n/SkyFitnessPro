@@ -1,7 +1,7 @@
 import ReactPlayer from 'react-player/youtube'
-import Logo from '../../components/Ui/Logo/index'
-import User from '../../components/User/index'
-import Exercises from '../../components/Exercises/index'
+import Logo from '../../components/Ui/Logo'
+import User from '../../components/User'
+import Exercises from '../../components/Exercises'
 import Progress from '../../components/Progress'
 import classes from './index.module.css'
 
