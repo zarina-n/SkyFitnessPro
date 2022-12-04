@@ -3,6 +3,7 @@ import { Routes, Route } from 'react-router-dom'
 import NotFound from '../pages/NotFound'
 import Main from '../pages/Main'
 import Workout from '../pages/Workout'
+import MyProfile from '../pages/MyProfile'
 
 const AppRoutes = () => {
   return (
@@ -10,6 +11,7 @@ const AppRoutes = () => {
       <Route path="*" element={<NotFound />} />
       <Route path="/" element={<Main />} />
       <Route path="workout" element={<Workout />} />
+      <Route path="profile" element={<MyProfile/>} />
     </Routes>
   )
 }
