@@ -16,11 +16,8 @@ const AppRoutes = () => {
       <Route path="/about" element={<AboutCourse />} />
       <Route path="workout" element={<Workout />} />
       <Route path="profile" element={<MyProfile />} />
-<<<<<<< HEAD
-=======
       <Route path="login" element={<Login />} />
       <Route path="signup" element={<SignUp />} />
->>>>>>> master
     </Routes>
   )
 }
