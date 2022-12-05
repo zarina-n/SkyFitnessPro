@@ -1,0 +1,8 @@
+.modal {
+    background-color: #ffffff;
+    border-radius: 12px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 33px 47px 44px;
+}
