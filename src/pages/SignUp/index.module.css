@@ -1,0 +1,36 @@
+.wrapper {
+    height: 100vh;
+    background-color: #271A58;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.logo {
+    margin-bottom: 18px;
+}
+
+.inputs {
+    display: flex;
+    flex-direction: column;
+    width: 278px;
+    margin-bottom: 50px;
+}
+
+  
+.input {
+    border-top: none;
+    border-left: none;
+    border-right: none;
+    border-bottom: 1px solid #d0cece;  
+    padding: 8px 5px;
+    font-size: 18px;
+    color: #d0cece;
+    margin: 10px 0px;
+}
+
+input::placeholder {
+    font-size: 18px;
+    line-height: 24px;
+    color: #d0cece;
+}
