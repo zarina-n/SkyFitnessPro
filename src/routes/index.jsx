@@ -1,6 +1,5 @@
 import { Routes, Route } from 'react-router-dom'
 import AboutCourse from '../pages/AboutCourse'
-
 import NotFound from '../pages/NotFound'
 import Main from '../pages/Main'
 import Workout from '../pages/Workout'
