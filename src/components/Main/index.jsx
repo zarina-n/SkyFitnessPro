@@ -2,11 +2,15 @@ import Logo from '../../components/Ui/Logo'
 import ButtonEnter from '../../components/Main/ButtonEnter'
 import ButtonUp from '../../components/Main/ButtonUp'
 import CoursesCarts from '../../components/CoursesCarts'
+import LoginModal from '../../components/LoginModal'
+import Modal from '../../components/Modal'
 
 import cn from 'classnames'
 import classes from './index.module.css'
 
 const Main = () => {
+  const isModalVisible = true; // Временно! Чисто для демонстрации модального окна.
+
   return (
     <div className={classes.wrapper}>
       <header className={classes.header}>
@@ -40,6 +44,11 @@ const Main = () => {
       <footer className={cn(classes.container, classes.footer)}>
         <ButtonUp />
       </footer>
+      {isModalVisible &&
+        <Modal>
+          <LoginModal />
+        </Modal>
+      }
     </div>
   )
 }
