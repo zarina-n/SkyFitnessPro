@@ -1,0 +1,26 @@
+.up {
+  font-family: 'StratosSkyeng', sans-serif;
+  font-style: normal;
+  border: none;
+  border-radius: 46px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  width: 147px;
+  height: 48px;
+  background-color: #c7e957;
+  color: #000;
+  font-size: 24px;
+  line-height: 32px;
+  letter-spacing: -0.1px;
+  text-align: center;
+}
+
+.up:hover {
+  background-color: #daf289;
+}
+
+.up:active {
+  background-color: #ebffab;
+}
