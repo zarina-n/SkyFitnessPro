@@ -1,0 +1,78 @@
+.container {
+  max-width: 444px;
+  background: #ffffff;
+  border-radius: 12px;
+  padding-bottom: 58px;
+  padding-top: 36px;
+}
+
+.title {
+  font-size: 32px;
+  line-height: 40px;
+  text-align: center;
+  padding-bottom: 40px;
+}
+
+.list {
+  margin-left: 83px;
+  margin-right: 54px;
+
+  overflow: hidden;
+  overflow-y: scroll;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(0, 0, 0, 0.15) rgba(0, 0, 0, 0.05);
+  max-height: 510px;
+}
+
+.list__item {
+  font-size: 20px;
+  line-height: 115%;
+  text-align: center;
+  letter-spacing: -0.05px;
+
+  cursor: pointer;
+
+  border: 1px solid #000;
+  border-radius: 26px;
+  padding: 11px 27px;
+  margin-bottom: 12px;
+  margin-right: 24px;
+
+  position: relative;
+}
+
+.list__item:first-child,
+.list__item:nth-child(2) {
+  color: #06b16e;
+  border: 1px solid #06b16e;
+}
+
+.list__item:first-child::after,
+.list__item:nth-child(2)::after {
+  content: url('../../../public/icon/check-mark.svg');
+  position: absolute;
+  right: 4%;
+  top: 15%;
+}
+
+.list::-webkit-scrollbar {
+  width: 5px;
+  margin-left: 24px;
+}
+
+.list::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.15);
+  border-radius: 10px;
+}
+
+.list::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.05);
+  border-radius: 10px;
+}
+
+.list__item p {
+  font-size: 16px;
+  line-height: 18px;
+  letter-spacing: 0.001em;
+  margin-top: 6px;
+}
