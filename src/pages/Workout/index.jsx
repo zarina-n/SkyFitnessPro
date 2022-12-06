@@ -1,11 +1,24 @@
+import { useState } from 'react'
 import ReactPlayer from 'react-player/youtube'
 import Logo from '../../components/Ui/Logo'
 import User from '../../components/User'
 import Exercises from '../../components/Exercises'
 import Progress from '../../components/Progress'
+import ProgressModal from '../../components/Modal/ProgressModal'
+import SuccessModal from '../../components/Modal/SuccessModal'
 import classes from './index.module.css'
 
 const Workout = () => {
+  const [isProgressModalShown, setIsProgressModalShown] = useState(false)
+  const [isSuccessModalShown, setIsSuccessModalShown] = useState(false)
+
+  const handleClick = () => setIsProgressModalShown(true)
+
+  const handleSendClick = () => {
+    setIsProgressModalShown(false)
+    setIsSuccessModalShown(true)
+  }
+
   return (
     <div className={classes.container}>
       <header className={classes.header}>
@@ -27,10 +40,12 @@ const Workout = () => {
           />
         </div>
         <div className={classes.exercises}>
-          <Exercises />
+          <Exercises onClick={handleClick} />
           <Progress />
         </div>
       </main>
+      {isProgressModalShown && <ProgressModal onClick={handleSendClick} />}
+      {isSuccessModalShown && <SuccessModal />}
     </div>
   )
 }
