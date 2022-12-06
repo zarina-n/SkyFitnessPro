@@ -2,14 +2,14 @@ import Logo from '../../components/Ui/Logo'
 import ButtonEnter from '../../components/Main/ButtonEnter'
 import ButtonUp from '../../components/Main/ButtonUp'
 import CoursesCarts from '../../components/CoursesCarts'
-import LoginModal from '../../components/LoginModal'
+import NewPassword from '../../components/Modal/NewPassword'
 import Modal from '../../components/Modal'
 
 import cn from 'classnames'
 import classes from './index.module.css'
 
 const Main = () => {
-  const isModalVisible = true; // Временно! Чисто для демонстрации модального окна.
+  const isModalVisible = false; // Временно! Чисто для демонстрации модального окна.
 
   return (
     <div className={classes.wrapper}>
@@ -46,7 +46,7 @@ const Main = () => {
       </footer>
       {isModalVisible &&
         <Modal>
-          <LoginModal />
+          <NewPassword />
         </Modal>
       }
     </div>
