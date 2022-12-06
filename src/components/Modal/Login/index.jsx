@@ -1,6 +1,6 @@
 import classes from './index.module.css'
-import Logo from '../Ui/Logo'
-import ButtonMain from '../Ui/ButtonMain'
+import Logo from '../../Ui/Logo'
+import ButtonMain from '../../Ui/ButtonMain'
 
 const LoginModal = () => {
     return (
