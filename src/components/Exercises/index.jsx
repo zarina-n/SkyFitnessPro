@@ -1,7 +1,7 @@
 import ButtonMain from '../Ui/ButtonMain'
 import classes from './index.module.css'
 
-const Exercises = () => {
+const Exercises = ({ onClick }) => {
   return (
     <div>
       <h2 className={classes.title}>Упражнения</h2>
@@ -12,7 +12,7 @@ const Exercises = () => {
           Поднятие ног, согнутых в коленях (5 повторений)
         </li>
       </ul>
-      <ButtonMain content="Заполнить свой прогресс" />
+      <ButtonMain content="Заполнить свой прогресс" onClick={onClick} />
     </div>
   )
 }
