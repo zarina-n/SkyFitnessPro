@@ -2,7 +2,7 @@ import Logo from '../../components/Ui/Logo'
 import ButtonEnter from '../../components/Main/ButtonEnter'
 import ButtonUp from '../../components/Main/ButtonUp'
 import CoursesCarts from '../../components/CoursesCarts'
-import LoginModal from '../../components/LoginModal'
+import Login from '../../components/Modal/Login'
 import Modal from '../../components/Modal'
 
 import cn from 'classnames'
@@ -46,7 +46,7 @@ const Main = () => {
       </footer>
       {isModalVisible &&
         <Modal>
-          <LoginModal />
+          <Login />
         </Modal>
       }
     </div>
