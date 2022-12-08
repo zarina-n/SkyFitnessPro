@@ -11,13 +11,14 @@ const CoursesCarts = ({ idCarts, button, className, ...attrs }) => {
   return (
     <div className={classes.container}>
       <div className={cn(className, classes.courses)}>
-        {images.map((img) => (
+        {images.map((img, index) => (
           <CourseCart
             button={button}
             {...attrs}
-            key={img.id}
+            key={index}
             id={img.id}
             src={img.src}
+            title={img.title}
           />
         ))}
       </div>

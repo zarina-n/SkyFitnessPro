@@ -1,27 +1,27 @@
 const CART_IMG = [
   {
     id: 'yoga',
-    src: 'image/carts/yoga.png',
+    src: 'image/carts/1.png',
     title: 'Йога',
   },
   {
     id: 'stretch',
-    src: 'image/carts/stretch.png',
+    src: 'image/carts/2.png',
     title: 'Стретчинг',
   },
   {
     id: 'dance',
-    src: 'image/carts/dance.png',
+    src: 'image/carts/3.png',
     title: 'Танцевальный фитнесс',
   },
   {
     id: 'step',
-    src: 'image/carts/step.png',
+    src: 'image/carts/4.png',
     title: 'Степ',
   },
   {
     id: 'bodyflex',
-    src: 'image/carts/bodyflex.png',
+    src: 'image/carts/5.png',
     title: 'Бодифлекс',
   },
 ]
