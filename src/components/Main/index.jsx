@@ -9,7 +9,7 @@ import cn from 'classnames'
 import classes from './index.module.css'
 
 const Main = () => {
-  const isModalVisible = false; // Временно! Чисто для демонстрации модального окна.
+  const isModalVisible = false // Временно! Чисто для демонстрации модального окна.
 
   return (
     <div className={classes.wrapper}>
@@ -27,7 +27,7 @@ const Main = () => {
                 Онлайн-тренировки для занятий дома
               </div>
               <div className={classes.title}>
-                Начните заниматься спортом <br></br> и улучшите качество жизни
+                Начните заниматься спортом и улучшите качество жизни
               </div>
             </div>
             <div className={classes.sticker}>
@@ -44,11 +44,11 @@ const Main = () => {
       <footer className={cn(classes.container, classes.footer)}>
         <ButtonUp />
       </footer>
-      {isModalVisible &&
+      {isModalVisible && (
         <Modal>
           <NewPassword />
         </Modal>
-      }
+      )}
     </div>
   )
 }
