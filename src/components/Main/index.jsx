@@ -1,15 +1,27 @@
+import { useState } from 'react'
+
 import Logo from '../../components/Ui/Logo'
 import ButtonEnter from '../../components/Main/ButtonEnter'
 import ButtonUp from '../../components/Main/ButtonUp'
 import CoursesCarts from '../../components/CoursesCarts'
-import NewPassword from '../../components/Modal/NewPassword'
 import Modal from '../../components/Modal'
+import Login from '../Modal/Login'
+import Signup from '../Modal/Signup'
 
 import cn from 'classnames'
 import classes from './index.module.css'
 
 const Main = () => {
-  const isModalVisible = false // Временно! Чисто для демонстрации модального окна.
+  const [isModalVisible, setModalVisible] = useState(false)
+  const [register, setRegister] = useState(false)
+
+  const openCloseModal = () => {
+    setModalVisible(!isModalVisible)
+  }
+
+  const showSignup = () => {
+    setRegister(true)
+  }
 
   return (
     <div className={classes.wrapper}>
@@ -17,7 +29,7 @@ const Main = () => {
         <div className={cn(classes.container, classes.sidebar)}>
           <Logo colorLogo="white" />
           <div className={classes.profile}>
-            <ButtonEnter />
+            <ButtonEnter onClick={openCloseModal} />
           </div>
         </div>
         <div className={cn(classes.container, classes.body)}>
@@ -45,8 +57,8 @@ const Main = () => {
         <ButtonUp />
       </footer>
       {isModalVisible && (
-        <Modal>
-          <NewPassword />
+        <Modal onClick={openCloseModal}>
+          {!register ? <Login showSignup={showSignup} /> : <Signup />}
         </Modal>
       )}
     </div>
