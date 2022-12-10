@@ -21,7 +21,6 @@ const Main = () => {
 
   const showSignup = () => {
     setRegister(true)
-    console.log(register)
   }
 
   return (
@@ -67,13 +66,3 @@ const Main = () => {
 }
 
 export default Main
-
-/**{isModalVisible && (
-        <Modal>
-          <NewPassword />
-        </Modal>
-      )} */
-
-/**<Modal isModalVisible={isModalVisible} onClick={openCloseModal}>
-        {!register ? <Login showSignup={showSignup} /> : <Signup />}
-      </Modal> */

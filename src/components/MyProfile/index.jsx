@@ -5,9 +5,10 @@ import Logo from '../Ui/Logo'
 import User from '../User'
 import CoursesCarts from '../CoursesCarts'
 import ButtonMain from '../Ui/ButtonMain'
-import Modal from '../../components/Modal'
-import NewPassword from '../../components/Modal/NewPassword'
-import NewLogin from '../../components/Modal/NewLogin'
+import Modal from '../Modal'
+import NewPassword from '../Modal/NewPassword'
+import NewLogin from '../Modal/NewLogin'
+import TrainingChoice from '../TrainingChoice'
 import { selectUser } from '../../store/user/userSlice'
 
 import classes from './index.module.css'
@@ -15,22 +16,23 @@ import classes from './index.module.css'
 const MyProfile = () => {
   const { login, password } = useSelector(selectUser)
   const [isModalVisible, setModalVisible] = useState(false)
-  const [modal, setModal] = useState({
-    newLog: false,
-    newPass: false,
-  })
 
-  const openCloseModal = () => {
-    setModalVisible(!isModalVisible)
+  const [modal, setModal] = useState(null)
+
+  const closeModal = () => {
+    setModalVisible(false)
   }
 
   const handleClick = (e) => {
     setModalVisible(true)
     if (e.target.name === 'newPass') {
-      return setModal({ newLog: false, newPass: true })
+      return setModal(<NewPassword />)
     }
     if (e.target.name === 'newLog') {
-      return setModal({ newLog: true, newPass: false })
+      return setModal(<NewLogin />)
+    }
+    if (e.target.name === 'select') {
+      return setModal(<TrainingChoice />)
     }
   }
 
@@ -64,15 +66,13 @@ const MyProfile = () => {
         <div className={classes.cards}>
           <CoursesCarts
             button={true}
+            name="select"
             idCarts={['yoga', 'stretch', 'bodyflex']}
+            onClick={handleClick}
           />
         </div>
       </div>
-      {isModalVisible && (
-        <Modal onClick={openCloseModal}>
-          {modal.newLog ? <NewLogin /> : <NewPassword />}
-        </Modal>
-      )}
+      {isModalVisible && <Modal onClick={closeModal}>{modal}</Modal>}
     </div>
   )
 }
