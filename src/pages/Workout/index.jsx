@@ -6,6 +6,7 @@ import Exercises from '../../components/Exercises'
 import Progress from '../../components/Progress'
 import ProgressModal from '../../components/Modal/ProgressModal'
 import SuccessModal from '../../components/Modal/SuccessModal'
+import Modal from '../../components/Modal'
 import classes from './index.module.css'
 
 const Workout = () => {
@@ -13,6 +14,10 @@ const Workout = () => {
   const [isSuccessModalShown, setIsSuccessModalShown] = useState(false)
 
   const handleClick = () => setIsProgressModalShown(true)
+
+  const openCloseProgressModal = () => {
+    setIsProgressModalShown(!isProgressModalShown)
+  }
 
   const handleSendClick = () => {
     setIsProgressModalShown(false)
@@ -44,8 +49,14 @@ const Workout = () => {
           <Progress />
         </div>
       </main>
-      {isProgressModalShown && <ProgressModal onClick={handleSendClick} />}
-      {isSuccessModalShown && <SuccessModal />}
+      {isProgressModalShown && (
+        <Modal onClick={openCloseProgressModal}>
+          <ProgressModal onClick={handleSendClick} />
+        </Modal>
+      )}
+      {isSuccessModalShown && (
+        <SuccessModal setIsSuccessModalShown={setIsSuccessModalShown} />
+      )}
     </div>
   )
 }

@@ -1,10 +1,9 @@
-import Modal from '..'
 import ButtonMain from '../../Ui/ButtonMain'
 import classes from './index.module.css'
 
 const ProgressModal = ({ onClick }) => {
   return (
-    <Modal>
+    <>
       <h2 className={classes.title}>Мой прогресс</h2>
       <div className={classes.inputs}>
         <label className={classes.text}>
@@ -21,7 +20,7 @@ const ProgressModal = ({ onClick }) => {
         </label>
       </div>
       <ButtonMain content="Отправить" onClick={onClick} />
-    </Modal>
+    </>
   )
 }
 
