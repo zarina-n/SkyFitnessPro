@@ -1,4 +1,3 @@
-// import Modal from '..'
 import ButtonMain from '../../Ui/ButtonMain'
 import classes from './index.module.css'
 

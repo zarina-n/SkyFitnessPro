@@ -62,15 +62,3 @@ const Workout = () => {
 }
 
 export default Workout
-
-/*
-const openCloseSuccessModal = () => {
-    setIsSuccessModalShown(!isSuccessModalShown)
-  }
-
-{isSuccessModalShown && (
-        <Modal onClick={openCloseSuccessModal}>
-          <SuccessModal />
-        </Modal>
-      )}
-  */
