@@ -76,6 +76,7 @@
 .main {
   flex: 1 1 auto;
   padding-bottom: 34px;
+  text-align: center;
 }
 
 .footer {

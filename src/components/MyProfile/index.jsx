@@ -1,5 +1,13 @@
 import { useState } from 'react'
-import { useSelector } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
+import { useSelector, useDispatch } from 'react-redux'
+import { selectUser } from '../../store/user/userSlice'
+import {
+  selectCourses,
+  selectCoursesInfo,
+} from '../../store/courses/coursesSlice'
+import { revertAll } from '../../store/generalActions'
+import { useAuth } from '../../context/AuthContext'
 
 import Logo from '../Ui/Logo'
 import User from '../User'
@@ -9,15 +17,21 @@ import Modal from '../Modal'
 import NewPassword from '../Modal/NewPassword'
 import NewLogin from '../Modal/NewLogin'
 import TrainingChoice from '../TrainingChoice'
-import { selectUser } from '../../store/user/userSlice'
+import { Loader } from '../Loader'
 
 import classes from './index.module.css'
 
 const MyProfile = () => {
-  const { login, password } = useSelector(selectUser)
+  const dispatch = useDispatch()
+  const navigate = useNavigate()
   const [isModalVisible, setModalVisible] = useState(false)
-
   const [modal, setModal] = useState(null)
+  const [error, setError] = useState('')
+  const [loading, setLoading] = useState(false)
+  const { logout } = useAuth()
+  const { login, password } = useSelector(selectUser)
+  const { status } = useSelector(selectCoursesInfo)
+  const courses = useSelector(selectCourses)
 
   const closeModal = () => {
     setModalVisible(false)
@@ -26,14 +40,26 @@ const MyProfile = () => {
   const handleClick = (e) => {
     setModalVisible(true)
     if (e.target.name === 'newPass') {
-      return setModal(<NewPassword />)
+      return setModal(<NewPassword setModalVisible={setModalVisible} />)
     }
     if (e.target.name === 'newLog') {
-      return setModal(<NewLogin />)
+      return setModal(<NewLogin setModalVisible={setModalVisible} />)
     }
     if (e.target.name === 'select') {
       return setModal(<TrainingChoice />)
     }
+  }
+
+  const handleLogout = async () => {
+    setError('')
+    try {
+      await logout()
+      dispatch(revertAll())
+      navigate('/')
+    } catch {
+      setError('Ошибка при выходе из аккаунта')
+    }
+    setLoading(false)
   }
 
   return (
@@ -59,17 +85,27 @@ const MyProfile = () => {
             content="Редактировать пароль"
             onClick={handleClick}
           />
+          <ButtonMain
+            name="exit"
+            btnClassName={classes.button}
+            content={loading ? '...loading' : 'Выйти из аккаунта'}
+            onClick={handleLogout}
+          />
+          {error && <div className={classes.message}>{error}</div>}
         </div>
       </div>
       <div>
         <h2 className={classes.tittle}>Мои курсы</h2>
         <div className={classes.cards}>
-          <CoursesCarts
-            button={true}
-            name="select"
-            idCarts={['yoga', 'stretch', 'bodyflex']}
-            onClick={handleClick}
-          />
+          {status === 'loading' && <Loader />}
+          {status === 'received' && (
+            <CoursesCarts
+              courses={courses}
+              button={true}
+              name="select"
+              onClick={handleClick}
+            />
+          )}
         </div>
       </div>
       {isModalVisible && <Modal onClick={closeModal}>{modal}</Modal>}

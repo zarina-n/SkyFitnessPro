@@ -1,12 +1,17 @@
-import { useContext, useState, useEffect, createContext } from 'react'
+import { useContext, createContext, useEffect } from 'react'
 
 import {
+  onAuthStateChanged,
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
   updatePassword,
+  signOut,
 } from 'firebase/auth'
-
 import { auth } from '../firebase'
+
+import { setCurrentUser } from '../store/user/userSlice'
+import { store } from '../store'
+import { revertAll } from '../store/generalActions'
 
 const AuthContext = createContext()
 
@@ -15,9 +20,6 @@ export function useAuth() {
 }
 
 export function AuthProvider({ children }) {
-  const [currentUser, setCurrentUser] = useState()
-  const [loading, setLoading] = useState(true)
-
   function signup(email, password) {
     return createUserWithEmailAndPassword(auth, email, password)
   }
@@ -30,25 +32,33 @@ export function AuthProvider({ children }) {
     return updatePassword(auth.currentUser, password)
   }
 
-  useEffect(() => {
-    const unsubscribe = auth.onAuthStateChanged((user) => {
-      setCurrentUser(user)
-      setLoading(false)
-    })
+  function logout() {
+    return signOut(auth)
+  }
 
-    return unsubscribe
+  useEffect(() => {
+    onAuthStateChanged(auth, (currentUser) => {
+      console.log(currentUser)
+      if (currentUser) {
+        store.dispatch(
+          setCurrentUser({
+            email: currentUser.email,
+            token: currentUser.accessToken,
+            id: currentUser.uid,
+          })
+        )
+      } else {
+        store.dispatch(revertAll())
+      }
+    })
   }, [])
 
   const value = {
-    currentUser,
     login,
     signup,
     updateUserPassword,
+    logout,
   }
 
-  return (
-    <AuthContext.Provider value={value}>
-      {!loading && children}
-    </AuthContext.Provider>
-  )
+  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>
 }

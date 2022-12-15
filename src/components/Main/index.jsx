@@ -1,4 +1,11 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+
+import { loadCourses } from '../../store/courses/coursesActions'
+import {
+  selectCourses,
+  selectCoursesInfo,
+} from '../../store/courses/coursesSlice'
 
 import Logo from '../../components/Ui/Logo'
 import ButtonEnter from '../../components/Main/ButtonEnter'
@@ -7,13 +14,16 @@ import CoursesCarts from '../../components/CoursesCarts'
 import Modal from '../../components/Modal'
 import Login from '../Modal/Login'
 import Signup from '../Modal/Signup'
+import { Loader } from '../Loader'
 
 import cn from 'classnames'
 import classes from './index.module.css'
 
 const Main = () => {
+  const dispatch = useDispatch()
   const [isModalVisible, setModalVisible] = useState(false)
   const [register, setRegister] = useState(false)
+  const { status, error, qty } = useSelector(selectCoursesInfo)
 
   const openCloseModal = () => {
     setModalVisible(!isModalVisible)
@@ -22,6 +32,14 @@ const Main = () => {
   const showSignup = () => {
     setRegister(true)
   }
+
+  useEffect(() => {
+    if (!qty) {
+      dispatch(loadCourses())
+    }
+  }, [qty, dispatch])
+
+  const courses = useSelector(selectCourses)
 
   return (
     <div className={classes.wrapper}>
@@ -49,9 +67,9 @@ const Main = () => {
         </div>
       </header>
       <main className={classes.main}>
-        <CoursesCarts
-          idCarts={['yoga', 'stretch', 'dance', 'step', 'bodyflex']}
-        />
+        {error && <p>{error}</p>}
+        {status === 'loading' && <Loader />}
+        {status === 'received' && <CoursesCarts courses={courses} />}
       </main>
       <footer className={cn(classes.container, classes.footer)}>
         <ButtonUp />

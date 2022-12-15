@@ -1,4 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit'
+import { revertAll } from '../generalActions'
 
 const initialState = {
   login: null,
@@ -19,11 +20,25 @@ const userSlice = createSlice({
       state.token = action.payload.token
       state.id = action.payload.id
     },
-    removeUser: () => initialState,
+    setCurrentUser: (state, action) => {
+      state.email = action.payload.email
+      state.token = action.payload.token
+      state.id = action.payload.id
+    },
+    setLogin: (state, action) => {
+      state.login = action.payload
+    },
+    setPassword: (state, action) => {
+      state.password = action.payload
+    },
+  },
+  extraReducers: (builder) => {
+    builder.addCase(revertAll, () => initialState)
   },
 })
 
-export const { setUser, removeUser } = userSlice.actions
+export const { setUser, setCurrentUser, setLogin, setPassword } =
+  userSlice.actions
 
 export const userReducer = userSlice.reducer
 

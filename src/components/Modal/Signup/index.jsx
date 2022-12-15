@@ -1,46 +1,43 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
+import { useForm } from 'react-hook-form'
 import { useAuth } from '../../../context/AuthContext'
 import { setUser } from '../../../store/user/userSlice'
 
 import Logo from '../../Ui/Logo'
+import InputLogin from '../Inputs/Login'
+import InputEmail from '../Inputs/Email'
+import InputPassword from '../Inputs/Password'
 import ButtonMain from '../../Ui/ButtonMain'
+import { Loader } from '../../Loader'
 
 import classes from './index.module.css'
 
 const Signup = () => {
   const dispatch = useDispatch()
   const navigate = useNavigate()
-  const { signup } = useAuth()
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
-  const [values, setValues] = useState({
-    username: '',
-    email: '',
-    password: '',
-    confirmPass: '',
-  })
+  const { signup } = useAuth()
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm()
 
-  const onChange = (event) => {
-    setValues({ ...values, [event.target.name]: event.target.value })
-  }
-
-  async function handleSubmit(e) {
-    e.preventDefault()
-
-    if (values.password !== values.confirmPass) {
+  const onSubmit = async (data) => {
+    if (data.password !== data.confirmPassword) {
       return setError('Пароли не совпадают')
     }
-
     try {
       setError('')
       setLoading(true)
-      const { user } = await signup(values.email, values.password)
+      const { user } = await signup(data.email, data.password)
       dispatch(
         setUser({
-          login: values.username,
-          password: values.password,
+          login: data.username,
+          password: data.password,
           email: user.email,
           token: user.accessToken,
           id: user.uid,
@@ -55,44 +52,23 @@ const Signup = () => {
   }
 
   return (
-    <form className={classes.form} onSubmit={handleSubmit}>
+    <form className={classes.form} onSubmit={handleSubmit(onSubmit)}>
       <Logo className={classes.logo} />
       <div className={classes.inputs}>
-        <input
-          className={classes.input}
-          type="text"
-          name="username"
-          value={values.username}
-          onChange={onChange}
-          placeholder="Логин"
-        />
-        <input
-          className={classes.input}
-          type="email"
-          name="email"
-          value={values.email}
-          onChange={onChange}
-          placeholder="Почта"
-        />
-        <input
-          className={classes.input}
-          type="password"
-          name="password"
-          value={values.password}
-          onChange={onChange}
-          placeholder="Пароль"
-        />
-        <input
-          className={classes.input}
-          type="password"
-          name="confirmPass"
-          value={values.confirmPass}
-          onChange={onChange}
-          placeholder="Повторите пароль"
+        <InputLogin register={register} errors={errors} />
+        <InputEmail register={register} errors={errors} />
+        <InputPassword name="password" register={register} errors={errors} />
+        <InputPassword
+          name="confirmPassword"
+          register={register}
+          errors={errors}
         />
       </div>
       <div className={classes.buttons}>
-        <ButtonMain content={loading ? '...loading' : 'Зарегистрироваться'} />
+        <ButtonMain
+          type="submit"
+          content={loading ? <Loader /> : 'Зарегистрироваться'}
+        />
       </div>
       {error && <div className={classes.message}>{error}</div>}
     </form>

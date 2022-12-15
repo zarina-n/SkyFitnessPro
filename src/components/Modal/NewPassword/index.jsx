@@ -1,69 +1,60 @@
-import { useNavigate } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
 import { useState } from 'react'
+import { useForm } from 'react-hook-form'
 import { useAuth } from '../../../context/AuthContext'
-import { removeUser } from '../../../store/user/userSlice'
+import { setPassword } from '../../../store/user/userSlice'
 
 import Logo from '../../Ui/Logo'
+import InputPassword from '../Inputs/Password'
 import ButtonMain from '../../Ui/ButtonMain'
+import { Loader } from '../../Loader'
 
 import classes from './index.module.css'
 
-const NewPassword = () => {
+const NewPassword = ({ setModalVisible }) => {
   const dispatch = useDispatch()
-  const navigate = useNavigate()
   const { updateUserPassword } = useAuth()
-  const [password, setPassword] = useState('')
-  const [confirmPass, setConfirmPass] = useState('')
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm()
 
-  async function handleSubmit(e) {
-    e.preventDefault()
-
-    if (password !== confirmPass) {
+  const onSubmit = async (data) => {
+    if (data.password !== data.confirmPassword) {
       return setError('Пароли не совпадают')
     }
     setLoading(true)
     setError('')
-
-    if (password) {
-      try {
-        setError('')
-        setLoading(true)
-        await updateUserPassword(password)
-        dispatch(removeUser())
-        navigate('/')
-      } catch {
-        setLoading(false)
-        setError('Ошибка при обновлении аккаунта')
-      }
+    try {
+      setError('')
+      setLoading(true)
+      await updateUserPassword(data.password)
+      dispatch(setPassword(data.password))
+      setModalVisible(false)
+    } catch {
       setLoading(false)
+      setError('Ошибка при обновлении аккаунта')
     }
+    setLoading(false)
   }
 
   return (
-    <form className={classes.form} onSubmit={handleSubmit}>
-      <Logo colorLogo="black" className={classes.logo} />
+    <form className={classes.form} onSubmit={handleSubmit(onSubmit)}>
+      <Logo className={classes.logo} />
       <h3 className={classes.title}>Новый пароль:</h3>
       <div className={classes.inputs}>
-        <input
-          className={classes.input}
-          type="password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          placeholder="Пароль"
-        />
-        <input
-          className={classes.input}
-          type="password"
-          value={confirmPass}
-          onChange={(e) => setConfirmPass(e.target.value)}
-          placeholder="Повторите пароль"
+        <InputPassword name="password" register={register} errors={errors} />
+        <InputPassword
+          name="confirmPassword"
+          register={register}
+          errors={errors}
         />
       </div>
       <div className={classes.buttons}>
-        <ButtonMain content={loading ? '...loading' : 'Сохранить'} />
+        <ButtonMain content={loading ? <Loader /> : 'Сохранить'} />
       </div>
       {error && <div className={classes.message}>{error}</div>}
     </form>
