@@ -1,7 +1,8 @@
-import cn from 'classnames'
+import { Link } from 'react-router-dom'
 
 import LogoIcon from '../../Icons/LogoIcon'
 
+import cn from 'classnames'
 import classes from './index.module.css'
 
 const Logo = ({ colorLogo, className }) => {
@@ -9,9 +10,9 @@ const Logo = ({ colorLogo, className }) => {
 
   return (
     <div className={classes.container}>
-      <a href="/">
+      <Link to="/">
         <LogoIcon className={cn(className, classes.icon, classes[color])} />
-      </a>
+      </Link>
     </div>
   )
 }

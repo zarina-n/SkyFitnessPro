@@ -1,28 +1,54 @@
-import cn from 'classnames'
+import { useEffect, useState } from 'react'
 
-import CART_IMG from '../../data/CART_IMG'
+import InfiniteScroll from 'react-infinite-scroll-component'
 import CourseCart from '../CourseCart'
+import { Loader } from '../Loader'
+import CART_IMG from '../../data/CART_IMG'
 
 import classes from './index.module.css'
+import cn from 'classnames'
 
-const CoursesCarts = ({ idCarts, button, className, ...attrs }) => {
-  const images = CART_IMG.filter((img) => idCarts.includes(img.id))
+import { chunk, setSrc } from './helpers'
+
+const CoursesCarts = ({ courses, button, className, ...attrs }) => {
+  const [page, setPage] = useState(0)
+  const [carts, setCarts] = useState([])
+
+  const chunkCourses = chunk(courses)
+
+  useEffect(() => {
+    fetchCourses()
+  }, [])
+
+  const fetchCourses = () => {
+    if (carts.length < courses.length) {
+      setCarts([...carts, ...chunkCourses[page]])
+      setPage(page + 1)
+    } else setCarts(courses)
+  }
 
   return (
-    <div className={classes.container}>
-      <div className={cn(className, classes.courses)}>
-        {images.map((img, index) => (
-          <CourseCart
-            button={button}
-            {...attrs}
-            key={index}
-            id={img.id}
-            src={img.src}
-            title={img.title}
-          />
-        ))}
+    <InfiniteScroll
+      dataLength={carts.length}
+      next={fetchCourses}
+      hasMore={true}
+      loader={carts.length !== courses.length && <Loader />}
+    >
+      <div className={classes.container}>
+        <div className={cn(className, classes.courses)}>
+          {carts.map((cart, index) => (
+            <CourseCart
+              button={button}
+              {...attrs}
+              key={index}
+              src={setSrc(CART_IMG, index)}
+              id={cart._id}
+              title={cart.name}
+            />
+          ))}
+        </div>
       </div>
-    </div>
+    </InfiniteScroll>
   )
 }
 
