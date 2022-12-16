@@ -20,3 +20,5 @@ root.render(
     </AuthProvider>
   </React.StrictMode>
 )
+
+window.store = store;
