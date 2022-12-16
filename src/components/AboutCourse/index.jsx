@@ -13,7 +13,7 @@ import Modal from '../../components/Modal'
 const AboutCourse = () => {
   const title = useParams()
   const courseList = useSelector(selectCourses)
-  const course = courseList?.filter((course) => course.name === title.title)
+  const course = courseList?.filter((course) => course.pathName === title.title)
   const backGrndImg = `/image/background/${course[0].pathName}.png`
 
   const [isModalVisible, setModalVisible] = useState(false)
