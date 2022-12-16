@@ -24,7 +24,7 @@ const InputPassword = ({ register, errors, name }) => {
           },
         })}
       />
-      <span className={classes.message}>{errors.password?.message}</span>
+      <span className={classes.message}>{errors[name]?.message}</span>
     </>
   )
 }
