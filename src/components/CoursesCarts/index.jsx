@@ -44,6 +44,7 @@ const CoursesCarts = ({ courses, button, className, ...attrs }) => {
               src={setSrc(CART_IMG, index)}
               id={cart._id}
               title={cart.name}
+              pathName={cart.pathName}
             />
           ))}
         </div>
