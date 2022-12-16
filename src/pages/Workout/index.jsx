@@ -6,12 +6,14 @@ import Exercises from '../../components/Exercises'
 import Progress from '../../components/Progress'
 import ProgressModal from '../../components/Modal/ProgressModal'
 import SuccessModal from '../../components/Modal/SuccessModal'
+import TrainingChoice from '../../components/TrainingChoice'
 import Modal from '../../components/Modal'
 import classes from './index.module.css'
 
 const Workout = () => {
   const [isProgressModalShown, setIsProgressModalShown] = useState(false)
   const [isSuccessModalShown, setIsSuccessModalShown] = useState(false)
+  const [isTrainingModalShown, setIsTrainingModalShown] = useState(false)
 
   const handleClick = () => setIsProgressModalShown(true)
 
@@ -24,6 +26,12 @@ const Workout = () => {
     setIsSuccessModalShown(true)
   }
 
+  const titleClick = () => setIsTrainingModalShown(true)
+
+  const openCloseTrainingModal = () => {
+    setIsTrainingModalShown(!isTrainingModalShown)
+  }
+
   return (
     <div className={classes.container}>
       <header className={classes.header}>
@@ -34,7 +42,7 @@ const Workout = () => {
       </header>
       <main className={classes.main}>
         <h1 className={classes.heading}>Йога</h1>
-        <h2 className={classes.title}>
+        <h2 className={classes.title} onClick={titleClick}>
           Красота и здоровье / Йога на каждый день / 2 день
         </h2>
         <div className={classes.player}>
@@ -56,6 +64,11 @@ const Workout = () => {
       )}
       {isSuccessModalShown && (
         <SuccessModal setIsSuccessModalShown={setIsSuccessModalShown} />
+      )}
+      {isTrainingModalShown && (
+        <Modal onClick={openCloseTrainingModal}>
+          <TrainingChoice />
+        </Modal>
       )}
     </div>
   )
