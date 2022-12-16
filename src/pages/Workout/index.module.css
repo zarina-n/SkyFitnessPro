@@ -33,6 +33,12 @@
   line-height: 40px;
 }
 
+.title:hover {
+  cursor: pointer;
+  color: #3f007d;
+  transform: scale(1.004);
+}
+
 .player {
   height: 639px;
   width: 100%;
