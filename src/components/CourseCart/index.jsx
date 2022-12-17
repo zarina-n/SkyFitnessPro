@@ -3,12 +3,12 @@ import ButtonGo from '../ButtonGo'
 
 import classes from './index.module.css'
 
-const CourseCart = ({ id, src, button, title, ...attrs }) => {
+const CourseCart = ({ id, src, button, title, pathName, ...attrs }) => {
   const navigate = useNavigate()
 
   const goCourse = () => {
     if (!button) {
-      navigate(`/about/${title}`)
+      navigate(`/about/${pathName}`)
     } else return
   }
   return (
