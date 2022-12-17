@@ -19,3 +19,27 @@
   font-size: 24px;
   line-height: 32px;
 }
+
+.arrow {
+  transition: transform 0.2s ease-in-out;
+}
+
+.rotate {
+  transform: rotateX(180deg);
+}
+
+.white {
+  color: #fff;
+}
+
+.white:hover {
+  color: #d0cece;
+}
+
+.black {
+  color: #000;
+}
+
+.black:hover {
+  color: #505050;
+}

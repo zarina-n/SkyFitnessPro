@@ -66,7 +66,7 @@ const MyProfile = () => {
     <div className={classes.wrapper}>
       <header className={classes.header}>
         <Logo />
-        <User />
+        <User colorName="black"/>
       </header>
       <div className={classes.information}>
         <h2 className={classes.tittle}>Мой профиль</h2>
