@@ -1,5 +1,6 @@
 import { useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
+import cn from 'classnames'
 import { ReactComponent as Ellipse } from './ellipse.svg'
 import classes from './index.module.css'
 import { selectUser } from '../../store/user/userSlice'
