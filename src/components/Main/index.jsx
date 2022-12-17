@@ -6,6 +6,7 @@ import {
   selectCourses,
   selectCoursesInfo,
 } from '../../store/courses/coursesSlice'
+import { selectUser } from '../../store/user/userSlice'
 
 import Logo from '../../components/Ui/Logo'
 import ButtonEnter from '../../components/Main/ButtonEnter'
@@ -18,12 +19,14 @@ import { Loader } from '../Loader'
 
 import cn from 'classnames'
 import classes from './index.module.css'
+import User from '../User'
 
 const Main = () => {
   const dispatch = useDispatch()
   const [isModalVisible, setModalVisible] = useState(false)
   const [register, setRegister] = useState(false)
   const { status, error, qty } = useSelector(selectCoursesInfo)
+  const { login } = useSelector(selectUser)
 
   const openCloseModal = () => {
     setModalVisible(!isModalVisible)
@@ -46,9 +49,7 @@ const Main = () => {
       <header className={classes.header}>
         <div className={cn(classes.container, classes.sidebar)}>
           <Logo colorLogo="white" />
-          <div className={classes.profile}>
-            <ButtonEnter onClick={openCloseModal} />
-          </div>
+          {login ? <User colorName="white"/> : <ButtonEnter onClick={openCloseModal} />}
         </div>
         <div className={cn(classes.container, classes.body)}>
           <div className={classes.content}>

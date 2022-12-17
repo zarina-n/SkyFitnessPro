@@ -27,3 +27,20 @@
 .rotate {
   transform: rotateX(180deg);
 }
+
+.white {
+  color: #fff;
+}
+
+.white:hover {
+  color: #d0cece;
+}
+
+.black {
+  color: #000;
+}
+
+.black:hover {
+  color: #505050;
+}
+

@@ -7,7 +7,7 @@ import { ReactComponent as Arrow } from './arrow-down.svg'
 import classes from './index.module.css'
 import { selectUser } from '../../store/user/userSlice'
 
-const User = () => {
+const User = ({colorName = 'black'}) => {
   const navigate = useNavigate()
 
   const [isShowNav, setIsShowNav] = useState(false)
@@ -22,7 +22,7 @@ const User = () => {
     setIsShowNav(!isShowNav)
   }
   return (
-    <div className={classes.user} onClick={goProfile}>
+    <div className={cn(classes.user, classes[colorName])} onClick={goProfile}>
       <Ellipse className={classes.avatar} />
       <p className={classes.name}>{login}</p>
       <Arrow className={cn(classes.arrow, isShowNav && classes.rotate)} onClick={handleShowNav}/>
