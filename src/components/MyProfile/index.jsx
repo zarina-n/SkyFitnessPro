@@ -1,12 +1,20 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
-import { selectUser } from '../../store/user/userSlice'
-import {
-  selectCourses,
-  selectCoursesInfo,
-} from '../../store/courses/coursesSlice'
+
+import { selectUser, setError, setLoading } from '../../store/user/userSlice'
 import { revertAll } from '../../store/generalActions'
+import { setUserPassword } from '../../store/user/usersActions'
+import { userCourses } from '../../store/profile/profileActions'
+import {
+  //selectProfile,
+  selectProfileInfo,
+  selectUserCourses,
+} from '../../store/profile/profileSlice'
+import {
+  selectCurrentWorkout,
+  setCurrentId,
+} from '../../store/workouts/workoutsSlice'
 import { useAuth } from '../../context/AuthContext'
 
 import Logo from '../Ui/Logo'
@@ -26,12 +34,22 @@ const MyProfile = () => {
   const navigate = useNavigate()
   const [isModalVisible, setModalVisible] = useState(false)
   const [modal, setModal] = useState(null)
-  const [error, setError] = useState('')
-  const [loading, setLoading] = useState(false)
+  const { id, error, loading, login, password } = useSelector(selectUser)
+  const { status } = useSelector(selectProfileInfo)
   const { logout } = useAuth()
-  const { login, password } = useSelector(selectUser)
-  const { status } = useSelector(selectCoursesInfo)
-  const courses = useSelector(selectCourses)
+  const courses = useSelector(selectUserCourses)
+
+  useEffect(() => {
+    if (password === null) {
+      dispatch(setUserPassword(id))
+    }
+  }, [dispatch, password])
+
+  useEffect(() => {
+    dispatch(userCourses(id))
+  }, [dispatch])
+
+  console.log(courses)
 
   const closeModal = () => {
     setModalVisible(false)
@@ -46,27 +64,32 @@ const MyProfile = () => {
       return setModal(<NewLogin setModalVisible={setModalVisible} />)
     }
     if (e.target.name === 'select') {
+      dispatch(setCurrentId(e.target.id))
       return setModal(<TrainingChoice />)
     }
   }
 
+  const workouts = useSelector(selectCurrentWorkout)
+  if (workouts === null) return null
+  console.log(workouts) //это все тренировки курса, формируются при клике по карточке, дальше взять из них, что надо для селекта и отправить в селект
+
   const handleLogout = async () => {
-    setError('')
+    dispatch(setError(''))
     try {
       await logout()
       dispatch(revertAll())
       navigate('/')
     } catch {
-      setError('Ошибка при выходе из аккаунта')
+      dispatch(setError('Ошибка при выходе из аккаунта'))
     }
-    setLoading(false)
+    dispatch(setLoading(false))
   }
 
   return (
     <div className={classes.wrapper}>
       <header className={classes.header}>
         <Logo />
-        <User colorName="black"/>
+        <User colorName="black" />
       </header>
       <div className={classes.information}>
         <h2 className={classes.tittle}>Мой профиль</h2>
@@ -97,10 +120,13 @@ const MyProfile = () => {
       <div>
         <h2 className={classes.tittle}>Мои курсы</h2>
         <div className={classes.cards}>
+          {status === 'received' && courses === null && (
+            <p>Скорее добавьте курс!!!</p>
+          )}
           {status === 'loading' && <Loader />}
-          {status === 'received' && (
+          {status === 'received' && courses !== null && (
             <CoursesCarts
-              courses={courses}
+              courses={Object.values(courses)}
               button={true}
               name="select"
               onClick={handleClick}

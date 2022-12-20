@@ -1,8 +1,14 @@
-import { useDispatch } from 'react-redux'
-import { useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+
 import { useForm } from 'react-hook-form'
 import { useAuth } from '../../../context/AuthContext'
-import { setPassword } from '../../../store/user/userSlice'
+import {
+  selectUser,
+  setError,
+  setLoading,
+  setPassword,
+} from '../../../store/user/userSlice'
+import { newPassword } from '../../../store/user/usersActions'
 
 import Logo from '../../Ui/Logo'
 import InputPassword from '../Inputs/Password'
@@ -13,9 +19,8 @@ import classes from './index.module.css'
 
 const NewPassword = ({ setModalVisible }) => {
   const dispatch = useDispatch()
+  const { error, loading, id } = useSelector(selectUser)
   const { updateUserPassword } = useAuth()
-  const [error, setError] = useState('')
-  const [loading, setLoading] = useState(false)
   const {
     register,
     handleSubmit,
@@ -24,21 +29,22 @@ const NewPassword = ({ setModalVisible }) => {
 
   const onSubmit = async (data) => {
     if (data.password !== data.confirmPassword) {
-      return setError('Пароли не совпадают')
+      return dispatch(setError('Пароли не совпадают'))
     }
-    setLoading(true)
-    setError('')
+    dispatch(setLoading(true))
+    dispatch(setError(''))
     try {
-      setError('')
-      setLoading(true)
+      dispatch(setError(''))
+      dispatch(setLoading(true))
       await updateUserPassword(data.password)
-      dispatch(setPassword(data.password))
+      dispatch(newPassword({ id: id, password: data.password }))
+      dispatch(dispatch(setPassword(data.password)))
       setModalVisible(false)
     } catch {
-      setLoading(false)
-      setError('Ошибка при обновлении аккаунта')
+      dispatch(setLoading(false))
+      dispatch(setError('Ошибка при обновлении аккаунта'))
     }
-    setLoading(false)
+    dispatch(setLoading(false))
   }
 
   return (

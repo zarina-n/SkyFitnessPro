@@ -1,7 +1,9 @@
-import { useState } from 'react'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { useForm } from 'react-hook-form'
-import { setLogin } from '../../../store/user/userSlice'
+
+import { useAuth } from '../../../context/AuthContext'
+import { newLogin } from '../../../store/user/usersActions'
+import { selectUser, setLoading } from '../../../store/user/userSlice'
 
 import Logo from '../../Ui/Logo'
 import InputLogin from '../Inputs/Login'
@@ -12,17 +14,19 @@ import classes from './index.module.css'
 
 const NewLogin = ({ setModalVisible }) => {
   const dispatch = useDispatch()
-  const [loading, setLoading] = useState(false)
+  const { id, loading } = useSelector(selectUser)
+  const { updateUserName } = useAuth()
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm()
 
-  const onSubmit = (data) => {
-    setLoading(true)
-    dispatch(setLogin(data.username))
-    setLoading(false)
+  const onSubmit = async (data) => {
+    dispatch(setLoading(true))
+    await updateUserName(data.username)
+    dispatch(newLogin({ id: id, username: data.username }))
+    dispatch(setLoading(false))
     setModalVisible(false)
   }
   return (
