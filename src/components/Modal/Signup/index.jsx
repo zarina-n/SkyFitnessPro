@@ -1,9 +1,15 @@
-import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { useForm } from 'react-hook-form'
+
 import { useAuth } from '../../../context/AuthContext'
-import { setUser } from '../../../store/user/userSlice'
+import {
+  selectUser,
+  setCurrentUser,
+  setError,
+  setLoading,
+  setPassword,
+} from '../../../store/user/userSlice'
 
 import Logo from '../../Ui/Logo'
 import InputLogin from '../Inputs/Login'
@@ -17,9 +23,8 @@ import classes from './index.module.css'
 const Signup = () => {
   const dispatch = useDispatch()
   const navigate = useNavigate()
-  const [error, setError] = useState('')
-  const [loading, setLoading] = useState(false)
-  const { signup } = useAuth()
+  const { error, loading } = useSelector(selectUser)
+  const { signup, updateUserName, writeUserData } = useAuth()
   const {
     register,
     handleSubmit,
@@ -28,27 +33,31 @@ const Signup = () => {
 
   const onSubmit = async (data) => {
     if (data.password !== data.confirmPassword) {
-      return setError('Пароли не совпадают')
+      return dispatch(setError('Пароли не совпадают'))
     }
+    dispatch(setLoading(true))
     try {
-      setError('')
-      setLoading(true)
+      dispatch(setError(''))
+      dispatch(setLoading(true))
       const { user } = await signup(data.email, data.password)
+
+      updateUserName(data.username)
+      writeUserData(user.uid, data.username, user.email, data.password)
       dispatch(
-        setUser({
+        setCurrentUser({
           login: data.username,
-          password: data.password,
           email: user.email,
           token: user.accessToken,
           id: user.uid,
         })
       )
+      dispatch(setPassword(data.password))
       navigate('/profile')
-    } catch {
-      setLoading(false)
-      setError('Ошибка при создании аккаунта')
+    } catch (error) {
+      dispatch(setLoading(false))
+      dispatch(setError(error.message))
     }
-    setLoading(false)
+    dispatch(setLoading(false))
   }
 
   return (

@@ -4,7 +4,7 @@ import { loadCourses } from './coursesActions'
 const initialState = {
   status: 'idle',
   error: null,
-  list: {},
+  list: [],
 }
 
 const coursesSlice = createSlice({

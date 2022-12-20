@@ -3,14 +3,18 @@ import PhoneInHandIcon from '../../components/Icons/PhoneHandIcon/PhoneInHandIco
 import ButtonMain from '../../components/Ui/ButtonMain'
 import Logo from '../../components/Ui/Logo'
 import { selectCourses } from '../../store/courses/coursesSlice'
-import { useSelector } from 'react-redux'
-import { useParams } from 'react-router-dom'
+import { useDispatch, useSelector } from 'react-redux'
+import { useNavigate, useParams } from 'react-router-dom'
 import Login from '../Modal/Login'
 import Signup from '../Modal/Signup'
 import { useState } from 'react'
 import Modal from '../../components/Modal'
+import { newCourse } from '../../store/profile/profileActions'
+import { selectUser } from '../../store/user/userSlice'
 
 const AboutCourse = () => {
+  const dispatch = useDispatch()
+  const navigate = useNavigate()
   const title = useParams()
   const courseList = useSelector(selectCourses)
   const course = courseList?.filter((course) => course.pathName === title.title)
@@ -18,6 +22,7 @@ const AboutCourse = () => {
 
   const [isModalVisible, setModalVisible] = useState(false)
   const [register, setRegister] = useState(false)
+  const { id } = useSelector(selectUser)
 
   const openCloseModal = () => {
     setModalVisible(!isModalVisible)
@@ -25,6 +30,16 @@ const AboutCourse = () => {
 
   const showSignup = () => {
     setRegister(true)
+  }
+
+  const addCourse = () => {
+    const idCourse = course[0]._id
+    const name = course[0].name
+    const pathName = course[0].pathName
+    dispatch(
+      newCourse({ id: id, idCourse: idCourse, name: name, pathName: pathName })
+    )
+    navigate('/profile')
   }
 
   return (
@@ -71,7 +86,8 @@ const AboutCourse = () => {
             </p>
             <ButtonMain
               content="Записаться на тренировку"
-              onClick={openCloseModal}
+              //onClick={openCloseModal}
+              onClick={addCourse}
             />
           </div>
           <div className={classes.application__right}>

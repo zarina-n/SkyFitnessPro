@@ -1,9 +1,15 @@
-import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { useForm } from 'react-hook-form'
+
 import { useAuth } from '../../../context/AuthContext'
-import { setUser } from '../../../store/user/userSlice'
+import {
+  selectUser,
+  setCurrentUser,
+  setError,
+  setLoading,
+  setPassword,
+} from '../../../store/user/userSlice'
 
 import Logo from '../../Ui/Logo'
 import ButtonMain from '../../Ui/ButtonMain'
@@ -17,8 +23,7 @@ import classes from './index.module.css'
 const LoginModal = ({ showSignup }) => {
   const dispatch = useDispatch()
   const navigate = useNavigate()
-  const [error, setError] = useState('')
-  const [loading, setLoading] = useState(false)
+  const { error, loading } = useSelector(selectUser)
   const { login } = useAuth()
   const {
     register,
@@ -26,27 +31,31 @@ const LoginModal = ({ showSignup }) => {
     formState: { errors },
   } = useForm()
 
+  const handleClick = () => {
+    dispatch(setError(''))
+    showSignup()
+  }
+
   const onSubmit = async (data) => {
     try {
-      setError('')
-      setLoading(true)
+      dispatch(setError(''))
+      dispatch(setLoading(true))
       const { user } = await login(data.email, data.password)
-
       dispatch(
-        setUser({
-          login: data.username,
-          password: data.password,
+        setCurrentUser({
+          login: user.displayName,
           email: user.email,
           token: user.accessToken,
           id: user.uid,
         })
       )
+      dispatch(setPassword(data.password))
       navigate('/profile')
-    } catch {
-      setLoading(false)
-      setError('Ошибка авторизации')
+    } catch (error) {
+      dispatch(setLoading(false))
+      dispatch(setError(error.message))
     }
-    setLoading(false)
+    dispatch(setLoading(false))
   }
 
   return (
@@ -62,7 +71,7 @@ const LoginModal = ({ showSignup }) => {
         <ButtonMain
           content="Зарегистрироваться"
           colorBtn={'white'}
-          onClick={showSignup}
+          onClick={handleClick}
         />
         {error && <div className={classes.message}>{error}</div>}
       </div>

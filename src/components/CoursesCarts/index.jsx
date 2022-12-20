@@ -39,6 +39,7 @@ const CoursesCarts = ({ courses, button, className, ...attrs }) => {
           {carts.map((cart, index) => (
             <CourseCart
               button={button}
+              idButton={cart._id}
               {...attrs}
               key={index}
               src={setSrc(CART_IMG, index)}

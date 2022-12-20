@@ -20,6 +20,7 @@ import { Loader } from '../Loader'
 import cn from 'classnames'
 import classes from './index.module.css'
 import User from '../User'
+import { loadWorkouts } from '../../store/workouts/workoutsActions'
 
 const Main = () => {
   const dispatch = useDispatch()
@@ -39,6 +40,7 @@ const Main = () => {
   useEffect(() => {
     if (!qty) {
       dispatch(loadCourses())
+      dispatch(loadWorkouts())
     }
   }, [qty, dispatch])
 
@@ -49,7 +51,11 @@ const Main = () => {
       <header className={classes.header}>
         <div className={cn(classes.container, classes.sidebar)}>
           <Logo colorLogo="white" />
-          {login ? <User colorName="white"/> : <ButtonEnter onClick={openCloseModal} />}
+          {login ? (
+            <User colorName="white" />
+          ) : (
+            <ButtonEnter onClick={openCloseModal} />
+          )}
         </div>
         <div className={cn(classes.container, classes.body)}>
           <div className={classes.content}>
