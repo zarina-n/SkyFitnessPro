@@ -55,6 +55,10 @@ const MyProfile = () => {
     setModalVisible(false)
   }
 
+  const workouts = useSelector(selectCurrentWorkout)
+  if (workouts === null) return null
+  console.log(workouts) //это все тренировки курса, формируются при клике по карточке, дальше взять из них, что надо для селекта и отправить в селект
+
   const handleClick = (e) => {
     setModalVisible(true)
     if (e.target.name === 'newPass') {
@@ -65,13 +69,9 @@ const MyProfile = () => {
     }
     if (e.target.name === 'select') {
       dispatch(setCurrentId(e.target.id))
-      return setModal(<TrainingChoice />)
+      return setModal(<TrainingChoice workouts={workouts} />)
     }
   }
-
-  const workouts = useSelector(selectCurrentWorkout)
-  if (workouts === null) return null
-  console.log(workouts) //это все тренировки курса, формируются при клике по карточке, дальше взять из них, что надо для селекта и отправить в селект
 
   const handleLogout = async () => {
     dispatch(setError(''))

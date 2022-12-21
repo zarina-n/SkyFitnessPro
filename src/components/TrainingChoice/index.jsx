@@ -1,10 +1,7 @@
 import classes from './index.module.css'
-import { useSelector } from 'react-redux'
-import { selectCurrentWorkout } from '../../store/workouts/workoutsSlice'
 import { Link } from 'react-router-dom'
 
-const TrainingChoice = () => {
-  const workouts = useSelector(selectCurrentWorkout)
+const TrainingChoice = ({ workouts }) => {
   console.log(workouts)
 
   return (
