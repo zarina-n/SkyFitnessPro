@@ -25,20 +25,31 @@
 }
 
 .list__item {
+  width: 278px;
+  min-height: 76px;
+  cursor: pointer;
+
   font-size: 20px;
   line-height: 115%;
   text-align: center;
   letter-spacing: -0.05px;
-
-  cursor: pointer;
+  color: #000;
 
   border: 1px solid #000;
   border-radius: 26px;
   padding: 11px 27px;
   margin-bottom: 12px;
   margin-right: 24px;
+  text-align: center;
 
   position: relative;
+}
+
+.list__text {
+  font-size: 16px;
+  line-height: 18px;
+  letter-spacing: 0.001em;
+  margin-top: 6px;
 }
 
 .list__item:first-child,
@@ -68,11 +79,4 @@
 .list::-webkit-scrollbar-track {
   background: rgba(0, 0, 0, 0.05);
   border-radius: 10px;
-}
-
-.list__item p {
-  font-size: 16px;
-  line-height: 18px;
-  letter-spacing: 0.001em;
-  margin-top: 6px;
 }
