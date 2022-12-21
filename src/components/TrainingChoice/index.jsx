@@ -13,7 +13,7 @@ const TrainingChoice = () => {
       <ul className={classes.list}>
         {workouts.map((workout) => (
           <li className={classes.list__item} key={workout._id}>
-            <Link className={classes.list__link} to="/workout/:id">
+            <Link className={classes.list__link} to={`/workout/${workout._id}`}>
               {workout.name}
               <p className={classes.list__text}>{workout.details}</p>
             </Link>
