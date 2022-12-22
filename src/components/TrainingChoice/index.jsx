@@ -1,18 +1,30 @@
 import classes from './index.module.css'
 import { Link } from 'react-router-dom'
+import { useSelector } from 'react-redux'
+import { selectCurrentWorkout } from '../../store/workouts/workoutsSlice'
 
-const TrainingChoice = ({ workouts }) => {
+const TrainingChoice = () => {
+  const workouts = useSelector(selectCurrentWorkout)
+
+  const isDone = false
+
+  workouts.map((workout) => ({ ...workout, isDone: isDone }))
+
   return (
     <div className={classes.container}>
       <h1 className={classes.title}>Выберите тренировку</h1>
       <ul className={classes.list}>
         {workouts?.map((workout) => (
-          <li className={classes.list__item} key={workout._id}>
-            <Link className={classes.list__link} to={`/workout/${workout._id}`}>
-              {workout.name}
-              <p className={classes.list__text}>{workout.details}</p>
-            </Link>
-          </li>
+          <Link
+            to={`/workout/${workout._id}`}
+            className={`${classes.list__item}  ${
+              isDone ? classes.active : classes.not_active
+            }`}
+            key={workout._id}
+          >
+            {workout.name}
+            <p className={classes.list__text}>{workout.details}</p>
+          </Link>
         ))}
       </ul>
     </div>
