@@ -11,6 +11,9 @@ import { useState } from 'react'
 import Modal from '../../components/Modal'
 import { newCourse } from '../../store/profile/profileActions'
 import { selectUser } from '../../store/user/userSlice'
+import ButtonEnter from '../Main/ButtonEnter'
+import User from '../User'
+import { selectUserCourses } from '../../store/profile/profileSlice'
 
 const AboutCourse = () => {
   const dispatch = useDispatch()
@@ -19,13 +22,33 @@ const AboutCourse = () => {
   const courseList = useSelector(selectCourses)
   const course = courseList?.filter((course) => course.pathName === title.title)
   const backGrndImg = `/image/background/${course[0].pathName}.png`
+  const { login } = useSelector(selectUser)
+
+  const userCourses = useSelector(selectUserCourses)
+
+  const doNotAddCourse = () => {
+    const existingCourses = []
+
+    let existingCourse
+    for (const key in userCourses) {
+      existingCourse = userCourses[key].pathName
+
+      existingCourses.push(existingCourse)
+    }
+    return !existingCourses.includes(course[0].pathName) ? false : true
+  }
+  const isAlreadyAdded = doNotAddCourse()
+  console.log(isAlreadyAdded)
 
   const [isModalVisible, setModalVisible] = useState(false)
   const [register, setRegister] = useState(false)
   const { id } = useSelector(selectUser)
 
+  //console.log(userCourses)
+
   const openCloseModal = () => {
     setModalVisible(!isModalVisible)
+    navigate
   }
 
   const showSignup = () => {
@@ -37,14 +60,26 @@ const AboutCourse = () => {
     const name = course[0].name
     const pathName = course[0].pathName
     dispatch(
-      newCourse({ id: id, idCourse: idCourse, name: name, pathName: pathName })
+      newCourse({
+        id: id,
+        idCourse: idCourse,
+        name: name,
+        pathName: pathName,
+      })
     )
     navigate('/profile')
   }
 
   return (
     <div className={classes.wrapper}>
-      <Logo />
+      <header className={classes.header}>
+        <Logo />
+        {login ? (
+          <User colorName="black" />
+        ) : (
+          <ButtonEnter onClick={openCloseModal} />
+        )}
+      </header>
       <div className={classes.container}>
         <div
           className={classes.title__box}
@@ -77,25 +112,27 @@ const AboutCourse = () => {
           <p className={classes.results__text}>{course[0].description}</p>
         </div>
 
-        <div className={classes.application}>
-          <div className={classes.application__left}>
-            <p className={classes.application__text}>
-              Оставьте заявку на пробное занятие, мы свяжемся с вами, поможем с
-              выбором направления и тренера, с которым тренировки принесут
-              здоровье и радость!
-            </p>
-            <ButtonMain
-              content="Записаться на тренировку"
-              //onClick={openCloseModal}
-              onClick={addCourse}
-            />
+        {!isAlreadyAdded && (
+          <div className={classes.application}>
+            <div className={classes.application__left}>
+              <p className={classes.application__text}>
+                Оставьте заявку на пробное занятие, мы свяжемся с вами, поможем
+                с выбором направления и тренера, с которым тренировки принесут
+                здоровье и радость!
+              </p>
+              <ButtonMain
+                content="Записаться на тренировку"
+                onClick={() => {
+                  login ? addCourse() : openCloseModal()
+                }}
+              />
+            </div>
+            <div className={classes.application__right}>
+              <PhoneInHandIcon />
+            </div>
           </div>
-          <div className={classes.application__right}>
-            <PhoneInHandIcon />
-          </div>
-        </div>
+        )}
       </div>
-
       {isModalVisible && (
         <Modal onClick={openCloseModal}>
           {!register ? <Login showSignup={showSignup} /> : <Signup />}
