@@ -13,8 +13,12 @@
   margin-top: 75px;
 }
 
+.header {
+  display: flex;
+  justify-content: space-between;
+}
+
 .title__box {
-  /* background-image: url('/public/image/background/yoga.png'); */
   background-color: rgba(205, 205, 205, 0.1);
   display: flex;
   justify-content: space-between;

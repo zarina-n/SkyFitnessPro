@@ -46,7 +46,9 @@ const MyProfile = () => {
   }, [dispatch, password])
 
   useEffect(() => {
-    dispatch(userCourses(id))
+    setTimeout(() => {
+      dispatch(userCourses(id))
+    }, 500)
   }, [dispatch])
 
   console.log(courses)
@@ -54,10 +56,6 @@ const MyProfile = () => {
   const closeModal = () => {
     setModalVisible(false)
   }
-
-  const workouts = useSelector(selectCurrentWorkout)
-  if (workouts === null) return null
-  console.log(workouts) //это все тренировки курса, формируются при клике по карточке, дальше взять из них, что надо для селекта и отправить в селект
 
   const handleClick = (e) => {
     setModalVisible(true)
@@ -72,6 +70,9 @@ const MyProfile = () => {
       return setModal(<TrainingChoice workouts={workouts} />)
     }
   }
+
+  const workouts = useSelector(selectCurrentWorkout)
+  if (workouts === null) return null
 
   const handleLogout = async () => {
     dispatch(setError(''))
