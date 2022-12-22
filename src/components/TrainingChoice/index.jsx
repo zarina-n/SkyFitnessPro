@@ -23,8 +23,6 @@ const TrainingChoice = () => {
     }
   }
 
-  console.log(currentWorkouts)
-
   return (
     <div className={classes.container}>
       <h1 className={classes.title}>Выберите тренировку</h1>
