@@ -81,3 +81,21 @@
   background-color: #f9ebff;
   border: 2px solid #9a48f1;
 }
+
+.color4 {
+  background-color: #88ad1b;
+}
+
+.colorBg4 {
+  background-color: #f2fbd6;
+  border: 2px solid #88ad1b;
+}
+
+.color5 {
+  background-color: #007fff;
+}
+
+.colorBg5 {
+  background-color: #e6f9ff;
+  border: 2px solid #007fff;
+}

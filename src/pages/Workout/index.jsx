@@ -1,4 +1,6 @@
 import { useState } from 'react'
+import { useSelector } from 'react-redux'
+import { useParams } from 'react-router-dom'
 import ReactPlayer from 'react-player/youtube'
 import Logo from '../../components/Ui/Logo'
 import User from '../../components/User'
@@ -8,9 +10,26 @@ import ProgressModal from '../../components/Modal/ProgressModal'
 import SuccessModal from '../../components/Modal/SuccessModal'
 import TrainingChoice from '../../components/TrainingChoice'
 import Modal from '../../components/Modal'
+import {
+  selectWorkouts,
+  selectCurrentWorkout,
+} from '../../store/workouts/workoutsSlice'
+import { selectCourses } from '../../store/courses/coursesSlice'
 import classes from './index.module.css'
 
 const Workout = () => {
+  const id = useParams()
+  const workoutList = useSelector(selectWorkouts)
+  const workout = workoutList?.filter((workout) => workout._id === id.id)
+  const title = `${workout[0].name} / ${workout[0].details}`
+
+  const coursesList = useSelector(selectCourses)
+  const currentCourse = coursesList.filter((course) =>
+    course.workout.includes(id.id)
+  )
+
+  const workouts = useSelector(selectCurrentWorkout)
+
   const [isProgressModalShown, setIsProgressModalShown] = useState(false)
   const [isSuccessModalShown, setIsSuccessModalShown] = useState(false)
   const [isTrainingModalShown, setIsTrainingModalShown] = useState(false)
@@ -41,25 +60,30 @@ const Workout = () => {
         </nav>
       </header>
       <main className={classes.main}>
-        <h1 className={classes.heading}>Йога</h1>
+        <h1 className={classes.heading}>{currentCourse[0].name}</h1>
         <h2 className={classes.title} onClick={titleClick}>
-          Красота и здоровье / Йога на каждый день / 2 день
+          {workout[0].details ? title : workout[0].name}
         </h2>
         <div className={classes.player}>
           <ReactPlayer
-            url={'https://youtu.be/v-xTLFDhoD0'}
+            url={workout[0].track_file || ''}
             width="100%"
             height="100%"
           />
         </div>
-        <div className={classes.exercises}>
-          <Exercises onClick={handleClick} />
-          <Progress />
-        </div>
+        {workout[0].exercises && workout[0].exercises.length > 0 && (
+          <div className={classes.exercises}>
+            <Exercises exercises={workout[0].exercises} onClick={handleClick} />
+            <Progress exercises={workout[0].exercises} />
+          </div>
+        )}
       </main>
       {isProgressModalShown && (
         <Modal onClick={openCloseProgressModal}>
-          <ProgressModal onClick={handleSendClick} />
+          <ProgressModal
+            exercises={workout[0].exercises}
+            onClick={handleSendClick}
+          />
         </Modal>
       )}
       {isSuccessModalShown && (
@@ -67,7 +91,7 @@ const Workout = () => {
       )}
       {isTrainingModalShown && (
         <Modal onClick={openCloseTrainingModal}>
-          <TrainingChoice />
+          <TrainingChoice workouts={workouts} />
         </Modal>
       )}
     </div>
