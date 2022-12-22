@@ -20,7 +20,7 @@ export const userCourses = createAsyncThunk(
 export const newCourse = createAsyncThunk(
   'profile/newCourse',
   async (
-    { id, idCourse, name, pathName },
+    { id, idCourse, name, pathName, workouts },
     { extra: { apiClient, api }, rejectWithValue }
   ) => {
     try {
@@ -28,6 +28,7 @@ export const newCourse = createAsyncThunk(
         _id: idCourse,
         name: name,
         pathName: pathName,
+        workouts: workouts,
       })
 
       if (response.statusText !== 'OK') {

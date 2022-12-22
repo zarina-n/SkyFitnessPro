@@ -14,17 +14,27 @@ import { selectUser } from '../../store/user/userSlice'
 import ButtonEnter from '../Main/ButtonEnter'
 import User from '../User'
 import { selectUserCourses } from '../../store/profile/profileSlice'
+import { selectWorkouts } from '../../store/workouts/workoutsSlice'
 
 const AboutCourse = () => {
   const dispatch = useDispatch()
   const navigate = useNavigate()
   const title = useParams()
+  const userCourses = useSelector(selectUserCourses)
   const courseList = useSelector(selectCourses)
   const course = courseList?.filter((course) => course.pathName === title.title)
   const backGrndImg = `/image/background/${course[0].pathName}.png`
   const { login } = useSelector(selectUser)
 
-  const userCourses = useSelector(selectUserCourses)
+  const allWorkouts = useSelector(selectWorkouts)
+
+  const userWorkouts = []
+
+  for (let i = 0; i < allWorkouts.length; i++) {
+    course[0].workout.map((workout) =>
+      workout === allWorkouts[i]._id ? userWorkouts.push(allWorkouts[i]) : ''
+    )
+  }
 
   const doNotAddCourse = () => {
     const existingCourses = []
@@ -38,13 +48,10 @@ const AboutCourse = () => {
     return !existingCourses.includes(course[0].pathName) ? false : true
   }
   const isAlreadyAdded = doNotAddCourse()
-  console.log(isAlreadyAdded)
 
   const [isModalVisible, setModalVisible] = useState(false)
   const [register, setRegister] = useState(false)
   const { id } = useSelector(selectUser)
-
-  //console.log(userCourses)
 
   const openCloseModal = () => {
     setModalVisible(!isModalVisible)
@@ -65,6 +72,7 @@ const AboutCourse = () => {
         idCourse: idCourse,
         name: name,
         pathName: pathName,
+        workouts: userWorkouts,
       })
     )
     navigate('/profile')
@@ -143,3 +151,19 @@ const AboutCourse = () => {
 }
 
 export default AboutCourse
+
+// id: id,
+// idCourse: idCourse,
+// name: 'йога',
+// pathName: 'yoga',
+// workouts: _id: "w01", [
+//   {count: 20, id: 1, name: 'Правильное дыхание (20 повторений)'},
+//   {count: 10, id: 2, name: 'Наклон вниз, правая рука тянется вверх (10 повторений)'},
+//   {count: 10, id: 3, name: 'Наклон вниз, левая рука тянется вверх (10 повторений)'},
+//   {count: 20, id: 4, name: 'Перенос веса с ноги на ногу в положении сидя (20 повторений)'}
+
+// ],
+
+// w02: [
+
+// ]]
