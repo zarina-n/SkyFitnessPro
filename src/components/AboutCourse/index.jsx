@@ -1,5 +1,4 @@
 import classes from './index.module.css'
-import PhoneInHandIcon from '../../components/Icons/PhoneHandIcon/PhoneInHandIcon'
 import ButtonMain from '../../components/Ui/ButtonMain'
 import Logo from '../../components/Ui/Logo'
 import { selectCourses } from '../../store/courses/coursesSlice'
@@ -95,6 +94,7 @@ const AboutCourse = () => {
         >
           <h1 className={classes.title}>{course[0].name}</h1>
         </div>
+
         <div className={classes.foryou}>
           <h2 className={classes.heading}>Подойдет для вас, если:</h2>
           <ol className={classes.foryou__list}>
@@ -122,22 +122,17 @@ const AboutCourse = () => {
 
         {!isAlreadyAdded && (
           <div className={classes.application}>
-            <div className={classes.application__left}>
-              <p className={classes.application__text}>
-                Оставьте заявку на пробное занятие, мы свяжемся с вами, поможем
-                с выбором направления и тренера, с которым тренировки принесут
-                здоровье и радость!
-              </p>
-              <ButtonMain
-                content="Записаться на тренировку"
-                onClick={() => {
-                  login ? addCourse() : openCloseModal()
-                }}
-              />
-            </div>
-            <div className={classes.application__right}>
-              <PhoneInHandIcon />
-            </div>
+            <p className={classes.application__text}>
+              Оставьте заявку на пробное занятие, мы свяжемся с вами, поможем с
+              выбором направления и тренера, с которым тренировки принесут
+              здоровье и радость!
+            </p>
+            <ButtonMain
+              content="Записаться на тренировку"
+              onClick={() => {
+                login ? addCourse() : openCloseModal()
+              }}
+            />
           </div>
         )}
       </div>
@@ -151,19 +146,3 @@ const AboutCourse = () => {
 }
 
 export default AboutCourse
-
-// id: id,
-// idCourse: idCourse,
-// name: 'йога',
-// pathName: 'yoga',
-// workouts: _id: "w01", [
-//   {count: 20, id: 1, name: 'Правильное дыхание (20 повторений)'},
-//   {count: 10, id: 2, name: 'Наклон вниз, правая рука тянется вверх (10 повторений)'},
-//   {count: 10, id: 3, name: 'Наклон вниз, левая рука тянется вверх (10 повторений)'},
-//   {count: 20, id: 4, name: 'Перенос веса с ноги на ногу в положении сидя (20 повторений)'}
-
-// ],
-
-// w02: [
-
-// ]]

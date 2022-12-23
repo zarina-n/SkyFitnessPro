@@ -33,9 +33,7 @@
   line-height: 115%;
   text-align: center;
   letter-spacing: -0.05px;
-  color: #000;
 
-  border: 1px solid #000;
   border-radius: 26px;
   padding: 11px 27px;
   margin-bottom: 12px;
@@ -43,6 +41,10 @@
   text-align: center;
 
   position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
 
 .list__text {
@@ -52,18 +54,25 @@
   margin-top: 6px;
 }
 
-.list__item:first-child,
-.list__item:nth-child(2) {
-  color: #06b16e;
+.active {
   border: 1px solid #06b16e;
+  color: #06b16e;
 }
 
-.list__item:first-child::after,
-.list__item:nth-child(2)::after {
+.active::after {
   content: url('../../../public/icon/check-mark.svg');
   position: absolute;
   right: 4%;
   top: 15%;
+}
+
+.not_active {
+  color: #000;
+  border: 1px solid #000;
+}
+
+.disabled {
+  pointer-events: none;
 }
 
 .list::-webkit-scrollbar {
