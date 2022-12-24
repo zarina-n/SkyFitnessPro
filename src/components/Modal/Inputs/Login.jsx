@@ -13,7 +13,7 @@ const InputLogin = ({ register, errors }) => {
           validate: (value) => {
             return (
               [/[A-Za-z0-9]/].every((pattern) => pattern.test(value)) ||
-              'Только буквы и цифры'
+              'Только буквы на латинице и цифры'
             )
           },
         })}

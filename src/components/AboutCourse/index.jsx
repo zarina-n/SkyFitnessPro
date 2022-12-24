@@ -54,7 +54,7 @@ const AboutCourse = () => {
 
   const openCloseModal = () => {
     setModalVisible(!isModalVisible)
-    navigate
+    setRegister(false)
   }
 
   const showSignup = () => {

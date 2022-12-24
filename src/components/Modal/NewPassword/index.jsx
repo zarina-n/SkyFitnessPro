@@ -19,8 +19,8 @@ import classes from './index.module.css'
 
 const NewPassword = ({ setModalVisible }) => {
   const dispatch = useDispatch()
-  const { error, loading, id } = useSelector(selectUser)
-  const { updateUserPassword } = useAuth()
+  const { email, password, error, loading, id } = useSelector(selectUser)
+  const { updateUserPassword, reauthenticate } = useAuth()
   const {
     register,
     handleSubmit,
@@ -36,15 +36,17 @@ const NewPassword = ({ setModalVisible }) => {
     try {
       dispatch(setError(''))
       dispatch(setLoading(true))
+      await reauthenticate(email, password)
       await updateUserPassword(data.password)
       dispatch(newPassword({ id: id, password: data.password }))
-      dispatch(dispatch(setPassword(data.password)))
+      dispatch(setPassword(data.password))
       setModalVisible(false)
-    } catch {
+    } catch (error) {
+      dispatch(setError(error.message))
       dispatch(setLoading(false))
-      dispatch(setError('Ошибка при обновлении аккаунта'))
     }
     dispatch(setLoading(false))
+    dispatch(setError(''))
   }
 
   return (

@@ -16,6 +16,10 @@
   .container {
     max-width: 970px;
   }
+  .courses {
+    grid-template-columns: repeat(auto-fill, minmax(280px, 300px));
+    justify-content: space-evenly;
+  }
 }
 
 @media (max-width: 990.98px) {

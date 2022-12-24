@@ -7,7 +7,6 @@ import { revertAll } from '../../store/generalActions'
 import { setUserPassword } from '../../store/user/usersActions'
 import { userCourses } from '../../store/profile/profileActions'
 import {
-  //selectProfile,
   selectProfileInfo,
   selectUserCourses,
 } from '../../store/profile/profileSlice'
@@ -34,7 +33,7 @@ const MyProfile = () => {
   const navigate = useNavigate()
   const [isModalVisible, setModalVisible] = useState(false)
   const [modal, setModal] = useState(null)
-  const { id, error, loading, login, password } = useSelector(selectUser)
+  const { id, login, password } = useSelector(selectUser)
   const { status } = useSelector(selectProfileInfo)
   const { logout } = useAuth()
   const courses = useSelector(selectUserCourses)
@@ -46,12 +45,16 @@ const MyProfile = () => {
   }, [dispatch, password])
 
   useEffect(() => {
+    return () => {
+      dispatch(setError(''))
+    }
+  }, [])
+
+  useEffect(() => {
     setTimeout(() => {
       dispatch(userCourses(id))
     }, 500)
   }, [dispatch])
-
-  console.log(courses)
 
   const closeModal = () => {
     setModalVisible(false)
@@ -80,10 +83,11 @@ const MyProfile = () => {
       await logout()
       dispatch(revertAll())
       navigate('/')
-    } catch {
-      dispatch(setError('Ошибка при выходе из аккаунта'))
+    } catch (error) {
+      dispatch(setError(error.message))
     }
     dispatch(setLoading(false))
+    dispatch(setError(''))
   }
 
   return (
@@ -112,16 +116,16 @@ const MyProfile = () => {
           <ButtonMain
             name="exit"
             btnClassName={classes.button}
-            content={loading ? '...loading' : 'Выйти из аккаунта'}
+            content="Выйти из аккаунта"
             onClick={handleLogout}
           />
-          {error && <div className={classes.message}>{error}</div>}
         </div>
       </div>
       <div>
         <h2 className={classes.tittle}>Мои курсы</h2>
         <div className={classes.cards}>
-          {status === 'received' && courses === null && (
+          {((status === 'rejected' && !courses.length) ||
+            (status === 'received' && courses === null)) && (
             <p>Скорее добавьте курс!!!</p>
           )}
           {status === 'loading' && <Loader />}

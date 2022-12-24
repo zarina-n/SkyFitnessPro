@@ -35,6 +35,7 @@ const workoutsSlice = createSlice({
 })
 
 export const workoutsReducer = workoutsSlice.reducer
+export const { setCurrentId } = workoutsSlice.actions
 
 //selectors
 
@@ -46,7 +47,6 @@ export const selectWorkoutsInfo = (state) => ({
 
 export const selectWorkouts = (state) => state.workouts.list
 export const selectCurrentId = (state) => state.workouts.currentId
-export const { setCurrentId } = workoutsSlice.actions
 
 export const selectCurrentWorkout = createSelector(
   [selectCourses, selectCurrentId, selectWorkouts],
