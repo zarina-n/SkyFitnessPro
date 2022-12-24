@@ -10,7 +10,6 @@ const initialState = {
   id: null,
   loading: false,
   error: null,
-  success: false,
 }
 
 const userSlice = createSlice({
@@ -50,7 +49,6 @@ const userSlice = createSlice({
       })
       .addCase(newLogin.fulfilled, (state, action) => {
         state.loading = false
-        state.success = true
         state.error = null
         state.login = action.payload.username
       })
@@ -65,7 +63,6 @@ const userSlice = createSlice({
       })
       .addCase(newPassword.fulfilled, (state, action) => {
         state.loading = false
-        state.success = true
         state.error = null
         state.password = action.payload.password
       })
@@ -80,7 +77,6 @@ const userSlice = createSlice({
       })
       .addCase(setUserPassword.fulfilled, (state, action) => {
         state.loading = false
-        state.success = true
         state.error = null
         state.password = action.payload
       })

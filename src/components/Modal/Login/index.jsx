@@ -43,7 +43,7 @@ const LoginModal = ({ showSignup }) => {
       const { user } = await login(data.email, data.password)
       dispatch(
         setCurrentUser({
-          login: user.displayName,
+          login: data.username,
           email: user.email,
           token: user.accessToken,
           id: user.uid,

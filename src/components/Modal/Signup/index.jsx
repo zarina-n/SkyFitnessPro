@@ -36,13 +36,14 @@ const Signup = () => {
       return dispatch(setError('Пароли не совпадают'))
     }
     dispatch(setLoading(true))
+    dispatch(setError(''))
     try {
       dispatch(setError(''))
       dispatch(setLoading(true))
-      const { user } = await signup(data.email, data.password)
 
-      updateUserName(data.username)
-      writeUserData(user.uid, data.username, user.email, data.password)
+      const { user } = await signup(data.email, data.password)
+      await updateUserName(data.username)
+      await writeUserData(user.uid, data.username, user.email, data.password)
       dispatch(
         setCurrentUser({
           login: data.username,
@@ -58,6 +59,7 @@ const Signup = () => {
       dispatch(setError(error.message))
     }
     dispatch(setLoading(false))
+    dispatch(setError(''))
   }
 
   return (

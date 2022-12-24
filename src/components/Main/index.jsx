@@ -7,6 +7,7 @@ import {
   selectCoursesInfo,
 } from '../../store/courses/coursesSlice'
 import { selectUser } from '../../store/user/userSlice'
+import { loadWorkouts } from '../../store/workouts/workoutsActions'
 
 import Logo from '../../components/Ui/Logo'
 import ButtonEnter from '../../components/Main/ButtonEnter'
@@ -16,11 +17,10 @@ import Modal from '../../components/Modal'
 import Login from '../Modal/Login'
 import Signup from '../Modal/Signup'
 import { Loader } from '../Loader'
+import User from '../User'
 
 import cn from 'classnames'
 import classes from './index.module.css'
-import User from '../User'
-import { loadWorkouts } from '../../store/workouts/workoutsActions'
 
 const Main = () => {
   const dispatch = useDispatch()
@@ -31,6 +31,7 @@ const Main = () => {
 
   const openCloseModal = () => {
     setModalVisible(!isModalVisible)
+    setRegister(false)
   }
 
   const showSignup = () => {
