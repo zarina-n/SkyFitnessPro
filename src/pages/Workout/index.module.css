@@ -63,6 +63,10 @@
     gap: 65px;
     margin-top: 50px;
   }
+
+  .player {
+    height: 450px;
+  }
 }
 
 @media (max-width: 840px) {
@@ -82,12 +86,20 @@
     font-size: 24px;
     line-height: 1.2;
   }
+
+  .player {
+    height: 400px;
+  }
 }
 
 @media (max-width: 768px) {
   .container {
     padding-right: calc(50% - 300px);
     padding-left: calc(50% - 300px);
+  }
+
+  .player {
+    height: 350px;
   }
 }
 
@@ -104,11 +116,19 @@
   .exercises {
     margin-top: 40px;
   }
+
+  .player {
+    height: 250px;
+  }
 }
 
 @media (max-width: 425px) {
   .container {
     padding-right: calc(50% - 150px);
     padding-left: calc(50% - 150px);
+  }
+
+  .player {
+    height: 200px;
   }
 }
