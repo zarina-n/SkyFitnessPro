@@ -4,20 +4,18 @@ import NotFound from '../pages/NotFound'
 import Main from '../pages/Main'
 import Workout from '../pages/Workout'
 import MyProfile from '../pages/MyProfile'
-import Login from '../pages/Login'
-import SignUp from '../pages/SignUp'
+import ProtectedRoute from './ProtectedRoute'
 
 const AppRoutes = () => {
   return (
     <Routes>
       <Route path="*" element={<NotFound />} />
+      <Route path="/" exact element={<Main />} />
       <Route path="/about/:title" element={<AboutCoursePage />} />
-      <Route path="/" element={<Main />} />
-      <Route path="workout/:id" element={<Workout />} />
-      <Route path="profile" element={<MyProfile />} />
-
-      <Route path="login" element={<Login />} />
-      <Route path="signup" element={<SignUp />} />
+      <Route element={<ProtectedRoute />}>
+        <Route path="/workout/:id" element={<Workout />} />
+        <Route path="/profile" element={<MyProfile />} />
+      </Route>
     </Routes>
   )
 }

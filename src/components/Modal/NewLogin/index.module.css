@@ -33,3 +33,9 @@
   color: red;
   text-align: center;
 }
+
+@media (max-width: 424.98px) {
+  .inputs {
+    width: 240px;
+  }
+}

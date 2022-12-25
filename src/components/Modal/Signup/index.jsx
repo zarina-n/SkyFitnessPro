@@ -20,7 +20,7 @@ import { Loader } from '../../Loader'
 
 import classes from './index.module.css'
 
-const Signup = () => {
+const Signup = ({ setModalVisible }) => {
   const dispatch = useDispatch()
   const navigate = useNavigate()
   const { error, loading } = useSelector(selectUser)
@@ -32,6 +32,7 @@ const Signup = () => {
   } = useForm()
 
   const onSubmit = async (data) => {
+    const route = document.location.pathname
     if (data.password !== data.confirmPassword) {
       return dispatch(setError('Пароли не совпадают'))
     }
@@ -53,7 +54,9 @@ const Signup = () => {
         })
       )
       dispatch(setPassword(data.password))
-      navigate('/profile')
+      if (route.includes('/about')) {
+        setModalVisible(false)
+      } else navigate('/profile')
     } catch (error) {
       dispatch(setLoading(false))
       dispatch(setError(error.message))

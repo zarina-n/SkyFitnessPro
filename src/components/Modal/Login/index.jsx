@@ -20,7 +20,7 @@ import { Loader } from '../../Loader'
 
 import classes from './index.module.css'
 
-const LoginModal = ({ showSignup }) => {
+const LoginModal = ({ showSignup, setModalVisible }) => {
   const dispatch = useDispatch()
   const navigate = useNavigate()
   const { error, loading } = useSelector(selectUser)
@@ -37,6 +37,7 @@ const LoginModal = ({ showSignup }) => {
   }
 
   const onSubmit = async (data) => {
+    const route = document.location.pathname
     try {
       dispatch(setError(''))
       dispatch(setLoading(true))
@@ -50,7 +51,9 @@ const LoginModal = ({ showSignup }) => {
         })
       )
       dispatch(setPassword(data.password))
-      navigate('/profile')
+      if (route.includes('/about')) {
+        setModalVisible(false)
+      } else navigate('/profile')
     } catch (error) {
       dispatch(setLoading(false))
       dispatch(setError(error.message))

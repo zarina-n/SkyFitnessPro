@@ -43,3 +43,9 @@
 .close:after {
   transform: rotate(-45deg);
 }
+
+@media (max-width: 424.98px) {
+  .modal {
+    padding: 33px 25px 44px;
+  }
+}

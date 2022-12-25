@@ -1,25 +1,23 @@
 import classes from './index.module.css'
 import ButtonMain from '../../components/Ui/ButtonMain'
-import Logo from '../../components/Ui/Logo'
 import { selectCourses } from '../../store/courses/coursesSlice'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate, useParams } from 'react-router-dom'
 import Login from '../Modal/Login'
 import Signup from '../Modal/Signup'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import Modal from '../../components/Modal'
-import { newCourse } from '../../store/profile/profileActions'
+import { newCourse, userCourses } from '../../store/profile/profileActions'
 import { selectUser } from '../../store/user/userSlice'
-import ButtonEnter from '../Main/ButtonEnter'
-import User from '../User'
 import { selectUserCourses } from '../../store/profile/profileSlice'
 import { selectWorkouts } from '../../store/workouts/workoutsSlice'
+import NavigateBlock from '../Ui/NavigateBlock'
 
 const AboutCourse = () => {
   const dispatch = useDispatch()
   const navigate = useNavigate()
   const title = useParams()
-  const userCourses = useSelector(selectUserCourses)
+  const userCoursesList = useSelector(selectUserCourses)
   const courseList = useSelector(selectCourses)
   const course = courseList?.filter((course) => course.pathName === title.title)
   const backGrndImg = `/image/background/${course[0].pathName}.png`
@@ -39,8 +37,8 @@ const AboutCourse = () => {
     const existingCourses = []
 
     let existingCourse
-    for (const key in userCourses) {
-      existingCourse = userCourses[key].pathName
+    for (const key in userCoursesList) {
+      existingCourse = userCoursesList[key].pathName
 
       existingCourses.push(existingCourse)
     }
@@ -77,15 +75,22 @@ const AboutCourse = () => {
     navigate('/profile')
   }
 
+  useEffect(() => {
+    if (id !== null) {
+      setTimeout(() => {
+        dispatch(userCourses(id))
+      }, 500)
+    }
+  }, [dispatch, id])
+
   return (
     <div className={classes.wrapper}>
       <header className={classes.header}>
-        <Logo />
-        {login ? (
-          <User colorName="black" />
-        ) : (
-          <ButtonEnter onClick={openCloseModal} />
-        )}
+        <NavigateBlock
+          login={login}
+          colorName="black"
+          onClick={openCloseModal}
+        />
       </header>
       <div className={classes.container}>
         <div
@@ -138,7 +143,11 @@ const AboutCourse = () => {
       </div>
       {isModalVisible && (
         <Modal onClick={openCloseModal}>
-          {!register ? <Login showSignup={showSignup} /> : <Signup />}
+          {!register ? (
+            <Login showSignup={showSignup} setModalVisible={setModalVisible} />
+          ) : (
+            <Signup setModalVisible={setModalVisible} />
+          )}
         </Modal>
       )}
     </div>
