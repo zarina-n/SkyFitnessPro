@@ -56,7 +56,7 @@ export const AuthProvider = ({ children }) => {
   useEffect(() => {
     console.log('проверяю')
     onAuthStateChanged(auth, (currentUser) => {
-      console.log(currentUser)
+      //console.log(currentUser)
       if (currentUser) {
         store.dispatch(
           setCurrentUser({

@@ -1,11 +1,62 @@
 /* eslint-disable react/jsx-key */
 import { useForm } from 'react-hook-form'
+import { useSelector, useDispatch } from 'react-redux'
 
 import ButtonMain from '../../Ui/ButtonMain'
 import InputProgress from '../Inputs/Progress'
 import classes from './index.module.css'
+import { addProgress } from '../../../store/profile/profileActions'
+import { selectUser } from '../../../store/user/userSlice'
 
-const ProgressModal = ({ exercises, onClick }) => {
+const ProgressModal = ({ exercises, onClick, courseName }) => {
+  const dispatch = useDispatch()
+
+  const { id } = useSelector(selectUser)
+  let currentCourseId
+  let currentCourse
+  let currentWorkoutIndex
+
+  const userProfile = useSelector((state) => state.profile.list)
+
+  for (const courseId in userProfile) {
+    if (userProfile[courseId].name === courseName) {
+      currentCourseId = courseId
+      currentCourse = userProfile[courseId]
+    }
+  }
+
+  currentCourse.workouts.map((wo, woIndex) =>
+    wo.exercises.map((ex) =>
+      exercises.map((userEx) =>
+        userEx.name === ex.name ? (currentWorkoutIndex = woIndex) : ''
+      )
+    )
+  )
+
+  const addUserProgress = (data) => {
+    const progress = []
+    for (const name in data) {
+      exercises.map((ex) =>
+        ex.name === name
+          ? progress.push({
+              exercisesDone: data[name],
+              count: ex.count,
+              name: ex.name,
+            })
+          : ''
+      )
+    }
+
+    dispatch(
+      addProgress({
+        id: id,
+        courseId: currentCourseId,
+        workoutIndex: currentWorkoutIndex,
+        progress: progress,
+      })
+    )
+  }
+
   const {
     register,
     handleSubmit,
@@ -13,8 +64,7 @@ const ProgressModal = ({ exercises, onClick }) => {
   } = useForm()
 
   const onSubmit = (data) => {
-    console.log(data)
-    //в input передавать имя инпута или index при map, чтобы получить значение в data;
+    addUserProgress(data)
     onClick()
   }
 
@@ -23,12 +73,12 @@ const ProgressModal = ({ exercises, onClick }) => {
       <h2 className={classes.title}>Мой прогресс</h2>
       <div className={classes.inputs}>
         {exercises?.map((exercise) => (
-          <label className={classes.text}>
+          <label className={classes.text} key={exercise.id}>
             {`Сколько раз вы сделали упражнение "${
               exercise.name.split('(')[0]
             }" ?`}
             <InputProgress
-              name={exercise.id}
+              name={exercise.name}
               register={register}
               errors={errors}
             />

@@ -21,4 +21,4 @@ root.render(
   </React.StrictMode>
 )
 
-window.store = store;
+window.store = store

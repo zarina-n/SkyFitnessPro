@@ -15,3 +15,15 @@ export const USER_PASSWORD = (id) => `/users/${id}/password.json`
 //profile //get
 export const USER_COURSES = (id) => `/users/${id}/courses.json?print=pretty`
 export const ADD_COURSE = (id) => `/users/${id}/courses.json?print=pretty`
+
+export const ADD_PROGRESS = (id, courseId, workoutIndex) =>
+  `/users/${id}/courses/${courseId}/workouts/${workoutIndex}/.json?print=pretty`
+
+// export const ADD_PROGRESS = (workoutName, id, courseId) =>
+//   `/workouts/${workoutName}/progress/${id}/${courseId}.json?print=pretty`
+
+// export const GET_PROGRESS = (workoutName, id, courseId) =>
+//   `/workouts/${workoutName}/progress/${id}/${courseId}/progress.json?print=pretty` /
+
+export const GET_PROGRESS = (id, courseId, workoutIndex) =>
+  `/users/${id}/courses/${courseId}/workouts/${workoutIndex}/progress.json?print=pretty`

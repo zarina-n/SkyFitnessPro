@@ -51,7 +51,8 @@
 
 .percent {
   position: absolute;
-  color: #fff;
+  /* color: #fff; */
+
   text-align: center;
 }
 
