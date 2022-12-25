@@ -3,7 +3,7 @@ import classes from './index.module.css'
 
 const Exercises = ({ exercises, onClick }) => {
   return (
-    <div>
+    <div className={classes.content}>
       <h2 className={classes.title}>Упражнения</h2>
       <ul className={classes.list}>
         {exercises?.map((exercise) => (
