@@ -23,14 +23,13 @@ async function requestValidAccessToken() {
   const now = Math.floor(Date.now() * 0.001)
 
   if (now >= expireTime) {
-    console.log('иду за новым токеном')
     if (refreshTokenRequest === null) {
       refreshTokenRequest = auth.currentUser.getIdToken()
     }
 
     const data = await refreshTokenRequest
     accessToken = data
-    console.log(accessToken)
+
     refreshTokenRequest = null
   }
 
@@ -43,7 +42,6 @@ apiClient.interceptors.request.use(async (config) => {
   }
 
   const accessToken = await requestValidAccessToken()
-  console.log(accessToken)
 
   return {
     ...config,
@@ -59,7 +57,6 @@ apiClient.interceptors.response.use(
     } = response
 
     if (status === 401) {
-      console.log('401')
       store.dispatch(revertAll())
     } else if (errors) {
       console.log('ошибки', errors)

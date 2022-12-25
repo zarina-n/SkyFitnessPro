@@ -2,8 +2,6 @@ import { useState } from 'react'
 import { useSelector } from 'react-redux'
 import { useParams } from 'react-router-dom'
 import ReactPlayer from 'react-player/youtube'
-import Logo from '../../components/Ui/Logo'
-import User from '../../components/User'
 import Exercises from '../../components/Exercises'
 import Progress from '../../components/Progress'
 import ProgressModal from '../../components/Modal/ProgressModal'
@@ -16,6 +14,7 @@ import {
 } from '../../store/workouts/workoutsSlice'
 import { selectCourses } from '../../store/courses/coursesSlice'
 import classes from './index.module.css'
+import NavigateBlock from '../../components/Ui/NavigateBlock'
 
 const Workout = () => {
   const id = useParams()
@@ -54,10 +53,7 @@ const Workout = () => {
   return (
     <div className={classes.container}>
       <header className={classes.header}>
-        <nav className={classes.nav}>
-          <Logo />
-          <User />
-        </nav>
+        <NavigateBlock />
       </header>
       <main className={classes.main}>
         <h1 className={classes.heading}>{currentCourse[0].name}</h1>

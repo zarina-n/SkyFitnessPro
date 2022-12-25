@@ -1,19 +1,18 @@
 {
   "files": {
-    "main.css": "/static/css/main.636d9dad.css",
-    "main.js": "/static/js/main.37705c47.js",
+    "main.css": "/static/css/main.f7ba4ce6.css",
+    "main.js": "/static/js/main.f180d9ee.js",
     "static/media/StratosSkyeng.ttf": "/static/media/StratosSkyeng.9db36b4609891e802c8e.ttf",
     "static/media/StratosSkyeng.woff": "/static/media/StratosSkyeng.03b01a6d0972d3524efe.woff",
     "static/media/StratosSkyeng.woff2": "/static/media/StratosSkyeng.c14b0c073901d3014117.woff2",
     "static/media/success.svg": "/static/media/success.9dab7567537b34041e4bd59b7f9872ad.svg",
     "index.html": "/index.html",
     "static/media/check-mark.svg": "/static/media/check-mark.ed90b3a3cd4ada158cd7.svg",
-    "static/media/ellipse.svg": "/static/media/ellipse.21394bb6619c077af9f8165027292e1c.svg",
-    "main.636d9dad.css.map": "/static/css/main.636d9dad.css.map",
-    "main.37705c47.js.map": "/static/js/main.37705c47.js.map"
+    "main.f7ba4ce6.css.map": "/static/css/main.f7ba4ce6.css.map",
+    "main.f180d9ee.js.map": "/static/js/main.f180d9ee.js.map"
   },
   "entrypoints": [
-    "static/css/main.636d9dad.css",
-    "static/js/main.37705c47.js"
+    "static/css/main.f7ba4ce6.css",
+    "static/js/main.f180d9ee.js"
   ]
 }

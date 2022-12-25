@@ -15,17 +15,6 @@
 
 /*=======header============*/
 
-.sidebar {
-  min-height: 100px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  column-gap: 10px;
-  row-gap: 10px;
-  padding-top: 10px;
-  padding-bottom: 10px;
-}
-
 .body {
   display: flex;
   justify-content: space-between;

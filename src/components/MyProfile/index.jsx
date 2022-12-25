@@ -16,8 +16,6 @@ import {
 } from '../../store/workouts/workoutsSlice'
 import { useAuth } from '../../context/AuthContext'
 
-import Logo from '../Ui/Logo'
-import User from '../User'
 import CoursesCarts from '../CoursesCarts'
 import ButtonMain from '../Ui/ButtonMain'
 import Modal from '../Modal'
@@ -27,6 +25,7 @@ import TrainingChoice from '../TrainingChoice'
 import { Loader } from '../Loader'
 
 import classes from './index.module.css'
+import NavigateBlock from '../Ui/NavigateBlock'
 
 const MyProfile = () => {
   const dispatch = useDispatch()
@@ -35,8 +34,8 @@ const MyProfile = () => {
   const [modal, setModal] = useState(null)
   const { id, login, password } = useSelector(selectUser)
   const { status } = useSelector(selectProfileInfo)
-  const { logout } = useAuth()
   const courses = useSelector(selectUserCourses)
+  const { logout } = useAuth()
 
   useEffect(() => {
     if (password === null) {
@@ -93,13 +92,12 @@ const MyProfile = () => {
   return (
     <div className={classes.wrapper}>
       <header className={classes.header}>
-        <Logo />
-        <User colorName="black" />
+        <NavigateBlock login={login} colorName="black" />
       </header>
       <div className={classes.information}>
         <h2 className={classes.tittle}>Мой профиль</h2>
-        <p className={classes.text}>{login}</p>
-        <p className={classes.text}>{password}</p>
+        <p className={classes.text}>Логин: {login}</p>
+        <p className={classes.text}>Пароль: {password}</p>
         <div className={classes.buttons}>
           <ButtonMain
             name="newLog"
