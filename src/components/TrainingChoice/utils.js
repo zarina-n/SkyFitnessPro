@@ -14,12 +14,11 @@ export const getCurrentWorkouts = (currentUserCourses, workouts) => {
   const selectWorkouts = currentWorkouts.map((wo) =>
     wo.progress &&
     wo.progress.some(
-      (progress) => Number(progress.count) === Number(progress.exercisesDone)
+      (progress) => Number(progress.exercisesDone) >= Number(progress.count)
     )
       ? wo.progress &&
         wo.progress.some(
-          (progress) =>
-            Number(progress.count) !== Number(progress.exercisesDone)
+          (progress) => Number(progress.exercisesDone) < Number(progress.count)
         )
         ? { ...wo, finished: false }
         : { ...wo, finished: true }
