@@ -2,6 +2,7 @@
   width: 278px;
   height: 52px;
   font-size: 18px;
+  padding: 10px;
 }
 
 .violet {
@@ -33,4 +34,10 @@
 
 .btn:disabled:hover {
   cursor: not-allowed;
+}
+
+@media (max-width: 424.98px) {
+  .btn {
+    width: 240px;
+  }
 }

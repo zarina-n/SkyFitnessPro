@@ -7,7 +7,6 @@ import { revertAll } from '../../store/generalActions'
 import { setUserPassword } from '../../store/user/usersActions'
 import { userCourses } from '../../store/profile/profileActions'
 import {
-  //selectProfile,
   selectProfileInfo,
   selectUserCourses,
 } from '../../store/profile/profileSlice'
@@ -17,8 +16,6 @@ import {
 } from '../../store/workouts/workoutsSlice'
 import { useAuth } from '../../context/AuthContext'
 
-import Logo from '../Ui/Logo'
-import User from '../User'
 import CoursesCarts from '../CoursesCarts'
 import ButtonMain from '../Ui/ButtonMain'
 import Modal from '../Modal'
@@ -28,22 +25,29 @@ import TrainingChoice from '../TrainingChoice'
 import { Loader } from '../Loader'
 
 import classes from './index.module.css'
+import NavigateBlock from '../Ui/NavigateBlock'
 
 const MyProfile = () => {
   const dispatch = useDispatch()
   const navigate = useNavigate()
   const [isModalVisible, setModalVisible] = useState(false)
   const [modal, setModal] = useState(null)
-  const { id, error, loading, login, password } = useSelector(selectUser)
+  const { id, login, password } = useSelector(selectUser)
   const { status } = useSelector(selectProfileInfo)
-  const { logout } = useAuth()
   const courses = useSelector(selectUserCourses)
+  const { logout } = useAuth()
 
   useEffect(() => {
     if (password === null) {
       dispatch(setUserPassword(id))
     }
   }, [dispatch, password])
+
+  useEffect(() => {
+    return () => {
+      dispatch(setError(''))
+    }
+  }, [])
 
   useEffect(() => {
     setTimeout(() => {
@@ -78,22 +82,22 @@ const MyProfile = () => {
       await logout()
       dispatch(revertAll())
       navigate('/')
-    } catch {
-      dispatch(setError('Ошибка при выходе из аккаунта'))
+    } catch (error) {
+      dispatch(setError(error.message))
     }
     dispatch(setLoading(false))
+    dispatch(setError(''))
   }
 
   return (
     <div className={classes.wrapper}>
       <header className={classes.header}>
-        <Logo />
-        <User colorName="black" />
+        <NavigateBlock login={login} colorName="black" />
       </header>
       <div className={classes.information}>
         <h2 className={classes.tittle}>Мой профиль</h2>
-        <p className={classes.text}>{login}</p>
-        <p className={classes.text}>{password}</p>
+        <p className={classes.text}>Логин: {login}</p>
+        <p className={classes.text}>Пароль: {password}</p>
         <div className={classes.buttons}>
           <ButtonMain
             name="newLog"
@@ -110,16 +114,16 @@ const MyProfile = () => {
           <ButtonMain
             name="exit"
             btnClassName={classes.button}
-            content={loading ? '...loading' : 'Выйти из аккаунта'}
+            content="Выйти из аккаунта"
             onClick={handleLogout}
           />
-          {error && <div className={classes.message}>{error}</div>}
         </div>
       </div>
       <div>
         <h2 className={classes.tittle}>Мои курсы</h2>
         <div className={classes.cards}>
-          {status === 'received' && courses === null && (
+          {((status === 'rejected' && !courses.length) ||
+            (status === 'received' && courses === null)) && (
             <p>Скорее добавьте курс!!!</p>
           )}
           {status === 'loading' && <Loader />}

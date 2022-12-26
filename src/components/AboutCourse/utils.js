@@ -10,15 +10,18 @@ export const getUserWorkouts = (allWorkouts, course) => {
   return userWorkouts
 }
 
-export const doNotAddCourse = (userCourses, course) => {
+export const doNotAddCourse = (userCoursesList, course) => {
   const existingCourses = []
 
   let existingCourse
-  for (const key in userCourses) {
-    existingCourse = userCourses[key].pathName
+  for (const key in userCoursesList) {
+    existingCourse = userCoursesList[key].pathName
 
     existingCourses.push(existingCourse)
   }
+  console.log(userCoursesList)
+
+  console.log(existingCourses.includes(course[0].pathName))
 
   return existingCourses.includes(course[0].pathName)
 }

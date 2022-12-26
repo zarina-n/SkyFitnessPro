@@ -62,7 +62,7 @@ const ProgressModal = ({ exercises, onClick, courseName }) => {
       <h2 className={classes.title}>Мой прогресс</h2>
       <div className={classes.inputs}>
         {exercises?.map((exercise) => (
-          <label className={classes.text} key={exercise.id}>
+          <label key={exercise.id} className={classes.text}>
             {`Сколько раз вы сделали упражнение "${
               exercise.name.split('(')[0]
             }" ?`}

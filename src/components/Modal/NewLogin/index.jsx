@@ -3,7 +3,7 @@ import { useForm } from 'react-hook-form'
 
 import { useAuth } from '../../../context/AuthContext'
 import { newLogin } from '../../../store/user/usersActions'
-import { selectUser, setLoading } from '../../../store/user/userSlice'
+import { selectUser, setError, setLoading } from '../../../store/user/userSlice'
 
 import Logo from '../../Ui/Logo'
 import InputLogin from '../Inputs/Login'
@@ -14,7 +14,7 @@ import classes from './index.module.css'
 
 const NewLogin = ({ setModalVisible }) => {
   const dispatch = useDispatch()
-  const { id, loading } = useSelector(selectUser)
+  const { id, error, loading } = useSelector(selectUser)
   const { updateUserName } = useAuth()
   const {
     register,
@@ -23,9 +23,14 @@ const NewLogin = ({ setModalVisible }) => {
   } = useForm()
 
   const onSubmit = async (data) => {
-    dispatch(setLoading(true))
-    await updateUserName(data.username)
-    dispatch(newLogin({ id: id, username: data.username }))
+    try {
+      dispatch(setLoading(true))
+      await updateUserName(data.username)
+      dispatch(newLogin({ id: id, username: data.username }))
+    } catch (error) {
+      dispatch(setError(error.message))
+      dispatch(setLoading(false))
+    }
     dispatch(setLoading(false))
     setModalVisible(false)
   }
@@ -41,6 +46,7 @@ const NewLogin = ({ setModalVisible }) => {
           type="submit"
           content={loading ? <Loader /> : 'Сохранить'}
         />
+        {error && <div className={classes.message}>{error}</div>}
       </div>
     </form>
   )

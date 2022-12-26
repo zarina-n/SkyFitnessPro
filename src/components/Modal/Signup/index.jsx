@@ -20,7 +20,7 @@ import { Loader } from '../../Loader'
 
 import classes from './index.module.css'
 
-const Signup = () => {
+const Signup = ({ setModalVisible }) => {
   const dispatch = useDispatch()
   const navigate = useNavigate()
   const { error, loading } = useSelector(selectUser)
@@ -32,17 +32,19 @@ const Signup = () => {
   } = useForm()
 
   const onSubmit = async (data) => {
+    const route = document.location.pathname
     if (data.password !== data.confirmPassword) {
       return dispatch(setError('Пароли не совпадают'))
     }
     dispatch(setLoading(true))
+    dispatch(setError(''))
     try {
       dispatch(setError(''))
       dispatch(setLoading(true))
-      const { user } = await signup(data.email, data.password)
 
-      updateUserName(data.username)
-      writeUserData(user.uid, data.username, user.email, data.password)
+      const { user } = await signup(data.email, data.password)
+      await updateUserName(data.username)
+      await writeUserData(user.uid, data.username, user.email, data.password)
       dispatch(
         setCurrentUser({
           login: data.username,
@@ -52,12 +54,15 @@ const Signup = () => {
         })
       )
       dispatch(setPassword(data.password))
-      navigate('/profile')
+      if (route.includes('/about')) {
+        setModalVisible(false)
+      } else navigate('/profile')
     } catch (error) {
       dispatch(setLoading(false))
       dispatch(setError(error.message))
     }
     dispatch(setLoading(false))
+    dispatch(setError(''))
   }
 
   return (

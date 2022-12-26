@@ -7,6 +7,8 @@ import {
   updatePassword,
   signOut,
   updateProfile,
+  reauthenticateWithCredential,
+  EmailAuthProvider,
 } from 'firebase/auth'
 import { auth } from '../firebase'
 import { getDatabase, ref, set } from 'firebase/database'
@@ -29,6 +31,15 @@ export const AuthProvider = ({ children }) => {
       email: email,
       password: password,
     })
+  }
+
+  const token = () => {
+    return auth.currentUser.getIdToken()
+  }
+
+  const reauthenticate = async (email, password) => {
+    const credential = await EmailAuthProvider.credential(email, password)
+    await reauthenticateWithCredential(auth.currentUser, credential)
   }
 
   const signup = (email, password) => {
@@ -54,19 +65,20 @@ export const AuthProvider = ({ children }) => {
   }
 
   useEffect(() => {
-    console.log('проверяю')
     onAuthStateChanged(auth, (currentUser) => {
-      //console.log(currentUser)
-      if (currentUser) {
-        store.dispatch(
-          setCurrentUser({
-            login: currentUser.displayName,
-            email: currentUser.email,
-            token: currentUser.accessToken,
-            id: currentUser.uid,
-          })
-        )
+      if (currentUser !== null) {
+        if (currentUser.displayName !== null) {
+          store.dispatch(
+            setCurrentUser({
+              login: currentUser.displayName,
+              email: currentUser.email,
+              token: currentUser.accessToken,
+              id: currentUser.uid,
+            })
+          )
+        }
       } else {
+        console.log('no user')
         store.dispatch(revertAll())
       }
     })
@@ -74,6 +86,8 @@ export const AuthProvider = ({ children }) => {
 
   const value = {
     writeUserData,
+    reauthenticate,
+    token,
     login,
     signup,
     updateUserPassword,

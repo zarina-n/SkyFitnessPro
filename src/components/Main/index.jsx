@@ -7,9 +7,8 @@ import {
   selectCoursesInfo,
 } from '../../store/courses/coursesSlice'
 import { selectUser } from '../../store/user/userSlice'
+import { loadWorkouts } from '../../store/workouts/workoutsActions'
 
-import Logo from '../../components/Ui/Logo'
-import ButtonEnter from '../../components/Main/ButtonEnter'
 import ButtonUp from '../../components/Main/ButtonUp'
 import CoursesCarts from '../../components/CoursesCarts'
 import Modal from '../../components/Modal'
@@ -19,8 +18,7 @@ import { Loader } from '../Loader'
 
 import cn from 'classnames'
 import classes from './index.module.css'
-import User from '../User'
-import { loadWorkouts } from '../../store/workouts/workoutsActions'
+import NavigateBlock from '../Ui/NavigateBlock'
 
 const Main = () => {
   const dispatch = useDispatch()
@@ -31,6 +29,7 @@ const Main = () => {
 
   const openCloseModal = () => {
     setModalVisible(!isModalVisible)
+    setRegister(false)
   }
 
   const showSignup = () => {
@@ -49,14 +48,12 @@ const Main = () => {
   return (
     <div className={classes.wrapper}>
       <header className={classes.header}>
-        <div className={cn(classes.container, classes.sidebar)}>
-          <Logo colorLogo="white" />
-          {login ? (
-            <User colorName="white" />
-          ) : (
-            <ButtonEnter onClick={openCloseModal} />
-          )}
-        </div>
+        <NavigateBlock
+          login={login}
+          colorLogo="white"
+          colorName="white"
+          onClick={openCloseModal}
+        />
         <div className={cn(classes.container, classes.body)}>
           <div className={classes.content}>
             <div className={classes.text}>
