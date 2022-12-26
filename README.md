@@ -2,6 +2,14 @@
 
 # Курсовая работа. Процессы командной разработки.
 
+## Наша команда:
+
+-   Татьяна Туркевич, [github](https://github.com/TTurkevich)
+-   Зарина Нугманова, [github](https://github.com/KittySaur)
+-   Любовь Яреньгина, [github](https://github.com/Yarengina)
+-   Вячеслав Ардалин, [github](https://github.com/santaCruz96)
+-   Анатолий Багров, [github](https://github.com/BagrovAnatoli)
+
 ## Описание проекта:
 
 Сайт для онлайн школы тренировок “SkyFitnessPro”.
@@ -87,7 +95,7 @@
 
 ### CI/CD
 
-Приложение опубликовано, используя сервис Netlify. Адрес [здесь.](https://moonlit-dieffenbachia-d356e0.netlify.app/)
+Приложение опубликовано, используя сервис Netlify. Адрес [здесь.](https://skyfitnesspro.netlify.app/)
 
 ### Технический стек
 
