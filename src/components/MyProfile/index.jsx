@@ -129,10 +129,10 @@ const MyProfile = () => {
           {status === 'loading' && <Loader />}
           {status === 'received' && courses !== null && (
             <CoursesCarts
+              onClick={handleClick}
               courses={Object.values(courses)}
               button={true}
               name="select"
-              onClick={handleClick}
             />
           )}
         </div>
