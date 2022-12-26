@@ -30,7 +30,6 @@ const AboutCourse = () => {
   const userWorkouts = getUserWorkouts(allWorkouts, course)
 
   const isAlreadyAdded = doNotAddCourse(userCoursesList, course)
-  console.log(isAlreadyAdded)
 
   const [isModalVisible, setModalVisible] = useState(false)
   const [register, setRegister] = useState(false)

@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit'
 import { revertAll } from '../generalActions'
 
-import { userCourses } from './profileActions'
+import { addProgress, newCourse, userCourses } from './profileActions'
 
 const initialState = {
   status: 'idle',
@@ -16,6 +16,7 @@ const profileSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(revertAll, () => initialState)
+      //userCourses
       .addCase(userCourses.pending, (state) => {
         state.status = 'loading'
         state.error = null
@@ -26,7 +27,34 @@ const profileSlice = createSlice({
       })
       .addCase(userCourses.fulfilled, (state, action) => {
         state.status = 'received'
+        state.error = null
         state.list = action.payload
+      })
+      //newCourse
+      .addCase(newCourse.pending, (state) => {
+        state.status = 'loading'
+        state.error = null
+      })
+      .addCase(newCourse.rejected, (state, action) => {
+        state.status = 'rejected'
+        state.error = action.payload
+      })
+      .addCase(newCourse.fulfilled, (state) => {
+        state.status = 'received'
+        state.error = null
+      })
+      //addProgress
+      .addCase(addProgress.pending, (state) => {
+        state.status = 'loading'
+        state.error = null
+      })
+      .addCase(addProgress.rejected, (state, action) => {
+        state.status = 'rejected'
+        state.error = action.payload
+      })
+      .addCase(addProgress.fulfilled, (state) => {
+        state.status = 'received'
+        state.error = null
       })
   },
 })

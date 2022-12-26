@@ -19,9 +19,6 @@ export const doNotAddCourse = (userCoursesList, course) => {
 
     existingCourses.push(existingCourse)
   }
-  console.log(userCoursesList)
-
-  console.log(existingCourses.includes(course[0].pathName))
 
   return existingCourses.includes(course[0].pathName)
 }

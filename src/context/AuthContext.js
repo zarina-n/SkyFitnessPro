@@ -78,7 +78,6 @@ export const AuthProvider = ({ children }) => {
           )
         }
       } else {
-        console.log('no user')
         store.dispatch(revertAll())
       }
     })
