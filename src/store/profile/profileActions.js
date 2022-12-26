@@ -66,25 +66,3 @@ export const addProgress = createAsyncThunk(
     }
   }
 )
-
-export const getProgress = createAsyncThunk(
-  'profile/addProgress',
-  async (
-    { id, courseId, workoutIndex },
-    { extra: { apiClient, api }, rejectWithValue }
-  ) => {
-    try {
-      const response = await apiClient.get(
-        api.ADD_PROGRESS(id, courseId, workoutIndex)
-      )
-
-      if (response.statusText !== 'OK') {
-        throw new Error('Что-то пошло не так')
-      }
-      const { data } = await response
-      return data
-    } catch (error) {
-      return rejectWithValue(error.message)
-    }
-  }
-)

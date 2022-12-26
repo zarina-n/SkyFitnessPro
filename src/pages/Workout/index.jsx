@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { useParams } from 'react-router-dom'
 import ReactPlayer from 'react-player/youtube'
@@ -37,14 +37,6 @@ const Workout = () => {
     )
   }
 
-  console.log(currentWorkout)
-
-  useEffect(() => {
-    setTimeout(() => {
-      dispatch(userCourses(id))
-    }, 500)
-  }, [dispatch])
-
   const workout = workoutList?.filter((workout) => workout._id === workoutId.id)
 
   const title = `${workout[0].name} / ${workout[0].details}`
@@ -65,11 +57,15 @@ const Workout = () => {
   }
 
   const handleSendClick = () => {
+    dispatch(userCourses(id))
     setIsProgressModalShown(false)
     setIsSuccessModalShown(true)
   }
 
-  const titleClick = () => setIsTrainingModalShown(true)
+  const titleClick = () => {
+    setIsTrainingModalShown(true)
+    dispatch(userCourses(id))
+  }
 
   const openCloseTrainingModal = () => {
     setIsTrainingModalShown(!isTrainingModalShown)

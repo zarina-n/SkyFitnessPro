@@ -1,33 +1,21 @@
 import classes from './index.module.css'
 import { Link } from 'react-router-dom'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { selectCurrentWorkout } from '../../store/workouts/workoutsSlice'
 import { selectUserCourses } from '../../store/profile/profileSlice'
+import { selectUser } from '../../store/user/userSlice'
+import { userCourses } from '../../store/profile/profileActions'
+import { getCurrentWorkouts } from './utils'
 
 const TrainingChoice = ({ openCloseTrainingModal }) => {
+  const dispatch = useDispatch
+  const { id } = useSelector(selectUser)
+  dispatch(userCourses(id))
+
   const workouts = useSelector(selectCurrentWorkout)
-  const userCourses = useSelector(selectUserCourses)
+  const currentUserCourses = useSelector(selectUserCourses)
 
-  const currentWorkouts = []
-
-  for (const courseId in userCourses) {
-    userCourses[courseId].workouts.map((userWo) =>
-      workouts.map((wo) =>
-        wo._id === userWo._id
-          ? currentWorkouts.push({ ...userWo, finished: false })
-          : ''
-      )
-    )
-  }
-
-  const selectWorkouts = currentWorkouts.map((wo) =>
-    wo.progress &&
-    wo.progress.some(
-      (progress) => Number(progress.count) === Number(progress.exercisesDone)
-    )
-      ? { ...wo, finished: true }
-      : wo
-  )
+  const selectWorkouts = getCurrentWorkouts(currentUserCourses, workouts)
 
   return (
     <div className={classes.container}>
@@ -52,5 +40,3 @@ const TrainingChoice = ({ openCloseTrainingModal }) => {
 }
 
 export default TrainingChoice
-
-// ${!workout.available ? classes.disabled : ''}

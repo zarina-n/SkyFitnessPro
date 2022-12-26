@@ -25,7 +25,10 @@ const Progress = ({ exercises }) => {
                 ></div>
                 <span
                   className={classes.percent}
-                  style={{ left: `${percent}px` }}
+                  style={{
+                    left: `${percent}px`,
+                    color: percent > 0 ? '#fff' : '#000',
+                  }}
                 >
                   {percent}%
                 </span>

@@ -7,16 +7,16 @@ import InputProgress from '../Inputs/Progress'
 import classes from './index.module.css'
 import { addProgress } from '../../../store/profile/profileActions'
 import { selectUser } from '../../../store/user/userSlice'
+import { getUserProgress } from './utils'
 
 const ProgressModal = ({ exercises, onClick, courseName }) => {
   const dispatch = useDispatch()
-
   const { id } = useSelector(selectUser)
+  const userProfile = useSelector((state) => state.profile.list)
+
   let currentCourseId
   let currentCourse
   let currentWorkoutIndex
-
-  const userProfile = useSelector((state) => state.profile.list)
 
   for (const courseId in userProfile) {
     if (userProfile[courseId].name === courseName) {
@@ -34,18 +34,7 @@ const ProgressModal = ({ exercises, onClick, courseName }) => {
   )
 
   const addUserProgress = (data) => {
-    const progress = []
-    for (const name in data) {
-      exercises.map((ex) =>
-        ex.name === name
-          ? progress.push({
-              exercisesDone: data[name],
-              count: ex.count,
-              name: ex.name,
-            })
-          : ''
-      )
-    }
+    const progress = getUserProgress(data, exercises)
 
     dispatch(
       addProgress({
