@@ -62,7 +62,7 @@
   content: url('../../../public/icon/check-mark.svg');
   position: absolute;
   right: 4%;
-  top: 15%;
+  top: 25%;
 }
 
 .not_active {
@@ -90,8 +90,21 @@
 }
 
 @media (max-width: 479.99px) {
+  .title {
+    font-size: 27px;
+  }
+
+  .list__item {
+    font-size: 18px;
+  }
+
+  .list__text {
+    font-size: 14px;
+  }
+
   .list {
     margin-left: 0px;
     margin-right: 0px;
+    overflow: hidden;
   }
 }
