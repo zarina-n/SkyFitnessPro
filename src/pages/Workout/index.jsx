@@ -56,7 +56,9 @@ const Workout = () => {
   }
 
   const handleSendClick = () => {
-    dispatch(userCourses(id))
+    setTimeout(() => {
+      dispatch(userCourses(id))
+    }, 500)
     setIsProgressModalShown(false)
     setIsSuccessModalShown(true)
   }
