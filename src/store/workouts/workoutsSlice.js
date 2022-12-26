@@ -52,6 +52,7 @@ export const selectCurrentWorkout = createSelector(
   [selectCourses, selectCurrentId, selectWorkouts],
   (courses, id, workouts) => {
     const idsWorkouts = courses?.filter((c) => c._id.includes(id))
+
     return workouts.filter((w) => idsWorkouts[0].workout.includes(w._id))
   }
 )

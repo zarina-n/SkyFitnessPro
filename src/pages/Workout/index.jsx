@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { useSelector } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
 import { useParams } from 'react-router-dom'
 import ReactPlayer from 'react-player/youtube'
 import Exercises from '../../components/Exercises'
@@ -8,26 +8,42 @@ import ProgressModal from '../../components/Modal/ProgressModal'
 import SuccessModal from '../../components/Modal/SuccessModal'
 import TrainingChoice from '../../components/TrainingChoice'
 import Modal from '../../components/Modal'
-import {
-  selectWorkouts,
-  selectCurrentWorkout,
-} from '../../store/workouts/workoutsSlice'
+import { selectWorkouts } from '../../store/workouts/workoutsSlice'
 import { selectCourses } from '../../store/courses/coursesSlice'
 import classes from './index.module.css'
 import NavigateBlock from '../../components/Ui/NavigateBlock'
 
+import { userCourses } from '../../store/profile/profileActions'
+import { selectUser } from '../../store/user/userSlice'
+import { selectUserCourses } from '../../store/profile/profileSlice'
+
 const Workout = () => {
-  const id = useParams()
+  const workoutId = useParams()
+  const dispatch = useDispatch()
+  const { id } = useSelector(selectUser)
+
   const workoutList = useSelector(selectWorkouts)
-  const workout = workoutList?.filter((workout) => workout._id === id.id)
+  const allCourses = useSelector(selectUserCourses)
+  let currentWorkout
+
+  for (const course in allCourses) {
+    allCourses[course].workouts.map((wo) =>
+      wo._id === workoutId.id
+        ? wo.progress !== undefined
+          ? (currentWorkout = wo.progress)
+          : (currentWorkout = wo.exercises)
+        : ''
+    )
+  }
+
+  const workout = workoutList?.filter((workout) => workout._id === workoutId.id)
+
   const title = `${workout[0].name} / ${workout[0].details}`
 
   const coursesList = useSelector(selectCourses)
   const currentCourse = coursesList.filter((course) =>
-    course.workout.includes(id.id)
+    course.workout.includes(workoutId.id)
   )
-
-  const workouts = useSelector(selectCurrentWorkout)
 
   const [isProgressModalShown, setIsProgressModalShown] = useState(false)
   const [isSuccessModalShown, setIsSuccessModalShown] = useState(false)
@@ -40,11 +56,17 @@ const Workout = () => {
   }
 
   const handleSendClick = () => {
+    setTimeout(() => {
+      dispatch(userCourses(id))
+    }, 500)
     setIsProgressModalShown(false)
     setIsSuccessModalShown(true)
   }
 
-  const titleClick = () => setIsTrainingModalShown(true)
+  const titleClick = () => {
+    setIsTrainingModalShown(true)
+    dispatch(userCourses(id))
+  }
 
   const openCloseTrainingModal = () => {
     setIsTrainingModalShown(!isTrainingModalShown)
@@ -67,10 +89,10 @@ const Workout = () => {
             height="100%"
           />
         </div>
-        {workout[0].exercises && workout[0].exercises.length > 0 && (
+        {currentWorkout && currentWorkout.length > 0 && (
           <div className={classes.exercises}>
-            <Exercises exercises={workout[0].exercises} onClick={handleClick} />
-            <Progress exercises={workout[0].exercises} />
+            <Exercises exercises={currentWorkout} onClick={handleClick} />
+            <Progress exercises={currentWorkout} />
           </div>
         )}
       </main>
@@ -79,6 +101,8 @@ const Workout = () => {
           <ProgressModal
             exercises={workout[0].exercises}
             onClick={handleSendClick}
+            courseName={currentCourse[0].name}
+            workoutName={workoutId.id}
           />
         </Modal>
       )}
@@ -87,7 +111,7 @@ const Workout = () => {
       )}
       {isTrainingModalShown && (
         <Modal onClick={openCloseTrainingModal}>
-          <TrainingChoice workouts={workouts} />
+          <TrainingChoice openCloseTrainingModal={openCloseTrainingModal} />
         </Modal>
       )}
     </div>

@@ -9,42 +9,28 @@ import { useEffect, useState } from 'react'
 import Modal from '../../components/Modal'
 import { newCourse, userCourses } from '../../store/profile/profileActions'
 import { selectUser } from '../../store/user/userSlice'
-import { selectUserCourses } from '../../store/profile/profileSlice'
 import { selectWorkouts } from '../../store/workouts/workoutsSlice'
 import NavigateBlock from '../Ui/NavigateBlock'
+import { selectUserCourses } from '../../store/profile/profileSlice'
+
+import { getUserWorkouts, doNotAddCourse } from './utils'
 
 const AboutCourse = () => {
   const dispatch = useDispatch()
   const navigate = useNavigate()
   const title = useParams()
-  const userCoursesList = useSelector(selectUserCourses)
   const courseList = useSelector(selectCourses)
+  const userCoursesList = useSelector(selectUserCourses)
   const course = courseList?.filter((course) => course.pathName === title.title)
   const backGrndImg = `/image/background/${course[0].pathName}.png`
   const { login } = useSelector(selectUser)
 
   const allWorkouts = useSelector(selectWorkouts)
 
-  const userWorkouts = []
+  const userWorkouts = getUserWorkouts(allWorkouts, course)
 
-  for (let i = 0; i < allWorkouts.length; i++) {
-    course[0].workout.map((workout) =>
-      workout === allWorkouts[i]._id ? userWorkouts.push(allWorkouts[i]) : ''
-    )
-  }
-
-  const doNotAddCourse = () => {
-    const existingCourses = []
-
-    let existingCourse
-    for (const key in userCoursesList) {
-      existingCourse = userCoursesList[key].pathName
-
-      existingCourses.push(existingCourse)
-    }
-    return !existingCourses.includes(course[0].pathName) ? false : true
-  }
-  const isAlreadyAdded = doNotAddCourse()
+  const isAlreadyAdded = doNotAddCourse(userCoursesList, course)
+  console.log(isAlreadyAdded)
 
   const [isModalVisible, setModalVisible] = useState(false)
   const [register, setRegister] = useState(false)
@@ -133,6 +119,7 @@ const AboutCourse = () => {
               здоровье и радость!
             </p>
             <ButtonMain
+              style={{ padding: '10px' }}
               content="Записаться на тренировку"
               onClick={() => {
                 login ? addCourse() : openCloseModal()

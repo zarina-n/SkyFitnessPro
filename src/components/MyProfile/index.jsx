@@ -69,7 +69,7 @@ const MyProfile = () => {
     }
     if (e.target.name === 'select') {
       dispatch(setCurrentId(e.target.id))
-      return setModal(<TrainingChoice workouts={workouts} />)
+      return setModal(<TrainingChoice />)
     }
   }
 

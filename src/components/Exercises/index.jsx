@@ -6,8 +6,8 @@ const Exercises = ({ exercises, onClick }) => {
     <div className={classes.content}>
       <h2 className={classes.title}>Упражнения</h2>
       <ul className={classes.list}>
-        {exercises?.map((exercise) => (
-          <li key={exercise.id} className={classes.listItem}>
+        {exercises?.map((exercise, i) => (
+          <li key={i} className={classes.listItem}>
             {exercise.name}
           </li>
         ))}

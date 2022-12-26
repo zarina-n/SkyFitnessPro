@@ -15,3 +15,6 @@ export const USER_PASSWORD = (id) => `/users/${id}/password.json?print=pretty`
 //profile //protected //get //post
 export const USER_COURSES = (id) => `/users/${id}/courses.json?print=pretty`
 export const ADD_COURSE = (id) => `/users/${id}/courses.json?print=pretty`
+
+export const ADD_PROGRESS = (id, courseId, workoutIndex) =>
+  `/users/${id}/courses/${courseId}/workouts/${workoutIndex}/.json?print=pretty`
