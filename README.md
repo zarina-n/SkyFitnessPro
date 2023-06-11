@@ -1,8 +1,8 @@
 # **_SkyFitnessPro_**
 
-# Курсовая работа. Процессы командной разработки.
+# Course work. Team development processes.
 
-## Наша команда:
+## Our team:
 
 -   Татьяна Туркевич, [github](https://github.com/TTurkevich)
 -   Зарина Нугманова, [github](https://github.com/KittySaur)
